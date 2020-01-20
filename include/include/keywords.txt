@@ -1,0 +1,39 @@
+#####################################
+# Syntax Coloring Map for "types.h"
+#####################################
+
+#####################################
+# Library (KEYWORD3)
+#####################################
+
+defined	KEYWORD3		PREPROCESSOR
+_typename	KEYWORD3		PREPROCESSOR
+noexcept	KEYWORD3
+noreturn	KEYWORD3
+
+#####################################
+# Functions and Methods (ORANGE)
+#####################################
+
+Stringize	KEYWORD2
+Concat	KEYWORD2
+Concat3	KEYWORD2
+Print	KEYWORD2
+PrintLn	KEYWORD2
+GetTimerTick	KEYWORD2
+
+#####################################
+# Data Types (LT BLUE)
+#####################################
+
+pin_t	LITERAL1
+msecs_t	LITERAL1
+usecs_t	LITERAL1
+analog_t	LITERAL1
+
+#####################################
+# Constants (LT BLUE)
+#####################################
+
+__HAS_VARIADIC_TEMPLATES	LITERAL1
+__HAS_NAMESPACES	LITERAL1
