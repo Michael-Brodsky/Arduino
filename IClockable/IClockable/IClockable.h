@@ -5,7 +5,7 @@
 #if !defined ICLOCKABLE_H__
 #define ICLOCKABLE_H__ 20191031L
 
-struct IClockable	// Asynhronous object abstract interface class.
+struct IClockable							// Asynhronous object abstract interface class.
 {
 	virtual ~IClockable() {}
 
@@ -13,13 +13,13 @@ struct IClockable	// Asynhronous object abstract interface class.
 };
 
 template <class T>
-static IClockable* iclockable(T& object) // Converts a pointer of a derived type to a pointer of type IClockable.
+static IClockable* iclockable(T& object)	// Converts a pointer of a derived type to a pointer of type IClockable.
 {
 	return static_cast<IClockable*>(&object);
 }
 
 template <class T>
-static void iclock(T& object)			// Calls a derived type's `clock()' implementation.
+static void iclock(T& object)				// Calls a derived type's `clock()' implementation.
 {
 	iclockable(object)->clock();
 }
