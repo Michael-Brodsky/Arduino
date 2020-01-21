@@ -14,17 +14,17 @@
 
 /*	***************************************************************************
  *
- *  This file is part of "Pretty Good" (Pg). "Pg" is free software: 
+ * This file is part of "Pretty Good" (Pg). "Pg" is free software: 
  *	you can redistribute it and/or modify it under the terms of the 
  *	GNU General Public License as published by the Free Software Foundation, 
  *	either version 3 of the License, or (at your option) any later version.
  *
- *  This file is distributed in the hope that it will be useful, but 
+ * This file is distributed in the hope that it will be useful, but 
  *	WITHOUT ANY WARRANTY; without even the implied warranty of 
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
  *	GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License 
+ * You should have received a copy of the GNU General Public License 
  *	along with this file. If not, see <http://www.gnu.org/licenses/>.
  *
  *	**************************************************************************/
@@ -39,7 +39,7 @@
  #if !defined __PIN_T_TYPE
   #define __PIN_T_TYPE uint8_t
  #endif
-typedef __PIN_T_TYPE pin_t;		// Unsigned integral type that can hold any GPIO pin number.
+typedef __PIN_T_TYPE pin_t;	        // Unsigned integral type that can hold any GPIO pin number.
  #define __PIN_T_DEFINED 1
 #endif // !defined __PIN_T_DEFINED ...
 
@@ -49,7 +49,7 @@ static const pin_t InvalidPin = 0;
  #if !defined __MSECS_T_TYPE
   #define __MSECS_T_TYPE unsigned long
  #endif
-typedef __MSECS_T_TYPE msecs_t;	// Unsigned integral type that represents a time in milliseconds.
+typedef __MSECS_T_TYPE msecs_t;     // Unsigned integral type that represents a time in milliseconds.
  #define __MSECS_T_DEFINED 1
 #endif // !defined __MSECS_T_DEFINED
 
@@ -57,7 +57,7 @@ typedef __MSECS_T_TYPE msecs_t;	// Unsigned integral type that represents a time
  #if !defined __MSECS_T_TYPE
   #define __MSECS_T_TYPE unsigned long
  #endif
-typedef __MSECS_T_TYPE usecs_t;	// Unsigned integral type that represents a time in microseconds.
+typedef __MSECS_T_TYPE usecs_t;     // Unsigned integral type that represents a time in microseconds.
  #define __USECS_T_DEFINED 1
 #endif // !defined __USECS_T_DEFINED
 
