@@ -31,6 +31,30 @@
 /*
  *	Description:
  *
+ *	This file defines an abstract interface class `IClockable' and two 
+ *	helper functions, `iclockable()' and `iclock()' that can be used to implement 
+ *	asynchronously "clocked" objects. `IClockable' declares one virtual method:
+ *
+ *		void clock(); 
+ *
+ *	which must be implemented in types derived from `IClockable'. Clients can 
+ *	call the type's `clock()' function to execute asynchronous tasks.
+ *	
+ *	The helper functions, `iclockable()' and `iclock()' are included for 
+ *	convenience to cast derived types to the `IClockable' interface type and to 
+ *	call a derived type's `clock()' implemention through the interface.
+ *
+ *	Examples:
+ *
+ *		class Object : public IClockable 
+ *		{
+ *		private:
+ *			void clock() override { ... } // Only accessible through interface.
+ *		};
+ *
+ *		Object obj1;
+ *			...
+ *		iclock(obj1); // Equivalent to (IClockable*)(&obj1)->clock().
  */
 
 #if !defined ICLOCKABLE_H__
@@ -44,15 +68,15 @@ struct IClockable	// Asynhronous object abstract interface class.
 };
 
 template <class T>
-static IClockable* iclockable(T& object) // Converts a pointer of a derived type to a pointer of type IClockable.
+static IClockable& iclockable(T& object) // Converts a reference to a derived type to a reference of type `IClockable'.
 {
-	return static_cast<IClockable*>(&object);
+	return static_cast<IClockable&>(object);
 }
 
 template <class T>
 static void iclock(T& object)			// Calls a derived type's `clock()' implementation.
 {
-	iclockable(object)->clock();
+	iclockable(object).clock();
 }
 
 #endif // !defined ICLOCKABLE_H__
