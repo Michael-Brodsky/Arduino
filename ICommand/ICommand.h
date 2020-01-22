@@ -34,7 +34,7 @@
  *	The "Command" pattern is an object behavioral pattern that decouples 
  *	the sender from the receiver by enapsulating a request as an object. It 
  *	can be thought of as an object-oriented equivalent to a callback method.
- *	State information enccapsulated within the command object can also be 
+ *	State information encapsulated within the command object can also be 
  *	preserved between successive calls.
  *
  *	This file defines an abstract interface class `ICommand' which all 
