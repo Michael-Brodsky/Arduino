@@ -1,6 +1,6 @@
 /*
  *	This file defines several types for implementing the C++ "Command" design 
- *	pattern.
+ *	pattern. 
 
  *	***************************************************************************/
 
