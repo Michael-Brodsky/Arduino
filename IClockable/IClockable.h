@@ -1,6 +1,6 @@
 /*
  *	This file defines an abstract interface class for asynchrounous, event-
- *	driven objects.
+ *	driven objects. 
 
  *	***************************************************************************/
 
