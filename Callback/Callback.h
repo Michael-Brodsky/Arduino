@@ -31,7 +31,7 @@
  *	Description:
  *
  *	This file includes several templated typedefs for defining callback 
- *	function signatures with template parameters. They can be templated as
+ *	function signatures with template parameters. The templates support both 
  *	memeber method or free-standing function callbacks, with or without 
  *	arguments.
  *
