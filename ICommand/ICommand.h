@@ -55,7 +55,7 @@
  *
  *		Command:		The `Command' types are templated callback types that 
  *						allow users to customize the callback signature with 
- *						template parameters. They can be templated as memeber 
+ *						template parameters. The templates support both member 
  *						method or free-standing function callbacks, with or 
  *						without arguments (see <Callback.h>).
  *
