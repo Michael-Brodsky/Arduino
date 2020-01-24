@@ -5,7 +5,7 @@
  *	***************************************************************************/
 
 /*	File: ICommand.h
- *	Date: January 18, 2020
+ *	Date: January 24, 2020
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -84,7 +84,7 @@
  */
 
 #if !defined ICOMMAND_H__
-#define ICOMMAND_H__ 20200118L
+#define ICOMMAND_H__ 20200124L
 
 #include <utils.h>		// _typename macro.
 #include <Callback.h>	// Callback types.
@@ -99,7 +99,7 @@ struct ICommand	// "Command" design pattern abstract interface class.
 struct NullCommand : public ICommand	// Null command type.
 {
 	NullCommand() : ICommand() { }
-	virtual ~NullCommand() { }
+	~NullCommand() { }
 
 	void execute() override { }
 };
@@ -111,10 +111,9 @@ class Command : public ICommand	// Command type for member function callbacks wi
 public:
 	Command(Arg arg, Obj* receiver = nullptr, _typename callback_type callback = nullptr) : 
 		ICommand(), arg_(arg), receiver_(receiver), callback_(callback) { }
-	virtual ~Command() { }
+	~Command() { }
 public:
 	void execute() override { (receiver_->*callback_)(arg_); }
-	Arg	arg() const { return arg_; }
 private:
 	Obj* receiver_;
 	_typename callback_type callback_;
@@ -128,10 +127,9 @@ class Command<Ret, void, Arg> : public ICommand	// Command type for free-standin
 public:
 	Command(Arg arg, _typename callback_type callback = nullptr) : 
 		ICommand(), arg_(arg), callback_(callback) { }
-	virtual ~Command() { }
+	~Command() { }
 public:
 	void execute() override { (*callback_)(arg_); }
-	Arg	arg() const { return arg_; }
 private:
 	_typename callback_type callback_;
 	Arg arg_;
@@ -144,7 +142,7 @@ class Command<Ret, Obj, void> : public ICommand	// Command type for member funct
 public:
 	Command(Obj* object = nullptr, _typename callback_type callback = nullptr) : 
 		ICommand(), object_(object), callback_(callback) { }
-	virtual ~Command() { }
+	~Command() { }
 public:
 	void execute() override { (object_->*callback_)(); }
 private:
@@ -159,7 +157,7 @@ class Command<Ret, void, void> : public ICommand	// Command type for free-standi
 public:
 	Command(_typename callback_type callback = nullptr) : 
 		ICommand(), callback_(callback) { }
-	virtual ~Command() { }
+	~Command() { }
 public:
 	void execute() override { (*callback_)(); }
 private:
