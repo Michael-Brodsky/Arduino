@@ -36,8 +36,6 @@
 #if !defined ICLONEABLE_H__
 #define ICLONEABLE_H__ 20200124L
 
-#endif // !defined ICLONEABLE_H__
-
 struct ICloneable 
 {
     virtual ~ICloneable() { }
@@ -45,3 +43,6 @@ struct ICloneable
     virtual ICloneable* clone() const = 0;  // Uses the copy constructor
     virtual ICloneable* create() const = 0; // Uses the default constructor
 };
+
+#endif // !defined ICLONEABLE_H__
+
