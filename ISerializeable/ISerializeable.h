@@ -44,6 +44,7 @@ struct ISerializeable		// Serializeable type abstract interface class.
 	virtual ~ISerializeable() { }
 
 	virtual void serialize() = 0;
+        virtual void deserialize() = 0;
 };
 
 template <class T>
