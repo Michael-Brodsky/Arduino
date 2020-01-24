@@ -60,6 +60,8 @@
 #if !defined ICLOCKABLE_H__
 #define ICLOCKABLE_H__ 20200120L
 
+#include <utils.h>    // GetTimerTick() macro.
+
 struct IClockable	// Asynhronous object abstract interface class.
 {
 	virtual ~IClockable() {}
