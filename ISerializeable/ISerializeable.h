@@ -102,4 +102,5 @@ void eepromUpdate(T& value)	// Writes `value' as data of type `T' to the EEPROM 
 	if(current != value)    // `T' must be equal-comparable.
         eepromPut(value);
 }
+
 #endif // !defined ISERIALIZEABLE_H__
