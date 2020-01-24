@@ -4,6 +4,7 @@
  */
 #if !defined INPUT_H__
 #define INPUT_H__ 
+
 #include <types.h>		// "arduino" & stdint types.
 #include <ICommand.h>	// ICommand interface class.
 
