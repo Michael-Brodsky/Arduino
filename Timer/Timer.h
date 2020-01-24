@@ -10,8 +10,11 @@ public:
     {
         msecs_t interval_;
         ICommand& command_;
+        
         Interval(msecs_t interval, ICommand& command) : 
-            interval_(interval), command_(command) { }
+            interval_(interval), command_(command) 
+        { 
+        }
         Interval& operator=(const Interval& other) 
         { 
             interval_ = other.interval_; 
@@ -23,10 +26,11 @@ public:
 public:
     Timer(Interval& interval, bool start_timer = false) : 
         IClockable(), interval_(interval), running_(), start_time_()   
-        { 
-            if(start_timer) 
-                start(); 
-        }
+    { 
+        if(start_timer) 
+            start(); 
+    }
+    
 public:
     void interval(Interval& intvl) 
     {
