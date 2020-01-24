@@ -1,5 +1,6 @@
 /*
- *	This file defines types and functions for serializing objects.
+ *	This file defines types and functions for implementing serializeable 
+ *  objects.
 
  *	***************************************************************************/
 
@@ -52,7 +53,8 @@
  *  Examples:
  *
  *  Objects that are not part of an inheritance hierarchy and don't contain 
- *  pointers can be "trivially" serialized/deserialized with the `this' pointer:
+ *  pointers or other objects can be "trivially" serialized/deserialized with 
+ *  the `this' pointer:
  *
  *      struct Object : public ISerializeable 
  *      {
@@ -74,7 +76,7 @@ struct ISerializeable		// Serializeable type abstract interface class.
 {
 	virtual ~ISerializeable() { }
 
-	virtual void serialize() = 0;
+	virtual void serialize() const = 0;
     virtual void deserialize() = 0;
 };
 
@@ -95,7 +97,7 @@ void eepromPut(T& value)	// Writes `value' as data of type `T' to the EEPROM.
 template <class T>
 void eepromUpdate(T& value)	// Writes `value' as data of type `T' to the EEPROM if `value' differs from the current content.
 {
-    T current;
+    T current;              // `T' must be default-constructable.
     EEPROM.get(eeprom_addr, current);
 	if(current != value)    // `T' must be equal-comparable.
         eepromPut(value);
