@@ -4,7 +4,7 @@
  *	***************************************************************************/
 
 /*	File: ClockCommand.h
- *	Date: November 19, 2019
+ *	Date: January 24, 2020
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -51,7 +51,7 @@
  */
 
 #if !defined CLOCKCOMMAND_H__
-#define CLOCKCOMMAND_H__ 20191119L
+#define CLOCKCOMMAND_H__ 20200124L
 
 #include <IClockable.h>	// IClockable interface class.
 #include <ICommand.h>	// ICommand interface class.
@@ -63,7 +63,7 @@ struct ClockCommand : public Command<void, IClockable>
 	explicit ClockCommand(IClockable& receiver) : 
 		Command(&receiver, static_cast<callback_t>(&IClockable::clock)) { }
 
-	virtual ~ClockCommand() { }
+	~ClockCommand() { }
 };
 
 #endif // !defined CLOCKCOMMAND_H__
