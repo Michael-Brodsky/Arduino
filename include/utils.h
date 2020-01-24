@@ -29,7 +29,7 @@
  *	**************************************************************************/
 
 #if !defined UTILS_H__
-#define UTILS_H__ 20191112L
+#define UTILS_H__ 20191111L
 
 #if defined _WIN32
  #include <iostream>
