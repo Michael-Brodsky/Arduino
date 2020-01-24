@@ -11,7 +11,7 @@ public:
     {
         msecs_t interval_;
         ICommand& command_;
-        Interval(uint32_t interval, ICommand& command) : 
+        Interval(msecs_t interval, ICommand& command) : 
             interval_(interval), command_(command) { }
         Interval& operator=(const Timer::Interval& other) 
         { 
