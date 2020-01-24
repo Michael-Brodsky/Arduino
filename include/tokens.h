@@ -1,14 +1,15 @@
 /*
  *  This file defrines three function-like macros for dealing with 
  *  preprocessor tokens.
- */
+ 
+ *	***************************************************************************/
  
 /*	File: tokens.h
  *	Date: September 27, 2015
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: superhotmuffin@hotmail.com
- *	Copyright (c) 2012-2016 Michael Brodsky 
+ *	Copyright (c) 2012-2020 Michael Brodsky 
  */
 
 /*	**************************************************************************
