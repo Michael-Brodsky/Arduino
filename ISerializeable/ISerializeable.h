@@ -30,6 +30,37 @@
 /*
  *	Description:
  *
+ *  This file defines an abstract interface class `ISerializeable' and three 
+ *  function templates, eepromGet(), eepromPut() and eepromUpdate() for 
+ *  reading and writing data to the on-board eeprom. ISerializeable declares 
+ *  two virtual functions: 
+ *
+ *      void serialize(), and
+ *      void deserialize()
+ *
+ *  which must be implemented in derived classes. Implementations should write
+ *  any appropriate data in their `serialize()' functions and read data in 
+ *  their `deserialize()' functions.
+ *
+ *  A static variable `eeprom_addr' holds the current eeprom read/write address 
+ *  and is advanced automatically by the function templates on each eeprom 
+ *  operation. IMPORTANT: `eeprom_addr' must be reset to its initial starting 
+ *  value between read and write operations, otherwise the next operation will 
+ *  occur past the end of the region where the data is stored (the function 
+ *  templates only advance `eeprom_addr').
+ *
+ *  Examples:
+ *
+ *  Objects that are not part of an inheritance hierarchy and don't contain 
+ *  pointers can be "trivially" serialized/deserialized with the `this' pointer:
+ *
+ *      struct Object : public ISerializeable 
+ *      {
+ *          size_t size_;
+ *          float value_;
+ *          void serialize() override { eepromPut(*this); }
+ *          void deserialize() override { eepromGet(*this); }
+ *      };
  */
 
 #if !defined ISERIALIZEABLE_H__
@@ -61,4 +92,12 @@ void eepromPut(T& value)	// Writes `value' as data of type `T' to the EEPROM.
 	eeprom_addr += sizeof(T);
 }
 
+template <class T>
+void eepromUpdate(T& value)	// Writes `value' as data of type `T' to the EEPROM if `value' differs from the current content.
+{
+    T current;
+    EEPROM.get(eeprom_addr, current);
+	if(current != value)    // `T' must be equal-comparable.
+        eepromPut(value);
+}
 #endif // !defined ISERIALIZEABLE_H__
