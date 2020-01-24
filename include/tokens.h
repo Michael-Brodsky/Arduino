@@ -1,3 +1,8 @@
+/*
+ *  This file defrines three function-like macros for dealing with 
+ *  preprocessor tokens.
+ */
+ 
 /*	File: tokens.h
  *	Date: September 27, 2015
  *	Version: 0.99
