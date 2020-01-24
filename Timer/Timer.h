@@ -1,7 +1,7 @@
 #if !defined TIMER_H__
 #define TIMER_H__ 20200124L
 
-#include <IClockCommand.h>
+#include <ClockCommand.h>
 
 class Timer : public IClockable 
 {
