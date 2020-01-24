@@ -2,10 +2,10 @@
  * This file defines an abstract interface class for checking the state of 
  * GPIO inputs.
  */
-#if !defined INPUT_H__
-#define INPUT_H__ 
 
-#include <types.h>		// "arduino" & stdint types.
+#if !defined INPUT_H__
+#define INPUT_H__ 20200124L
+
 #include <ICommand.h>	// ICommand interface class.
 
 struct Input // GPIO input abstract interface class.
