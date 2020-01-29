@@ -1,5 +1,5 @@
 /*
- *	This files declares an interval timer class.
+ *	This files declares an asynchronous interval timer class.
  
  *	***************************************************************************/
 
