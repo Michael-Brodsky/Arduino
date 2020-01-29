@@ -3,7 +3,7 @@
  
  *	***************************************************************************/
 
-/*	File: ClockCommand.h
+/*	File: IntervalTimer.h
  *	Date: Janury 24, 2020
  *	Version: 0.99
  *	Author: Michael Brodsky
