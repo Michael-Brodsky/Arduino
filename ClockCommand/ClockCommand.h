@@ -45,7 +45,7 @@
  *
  *		Object obj1;
  *			...
- *		ClockCommand cmd(obj1);
+ *		ClockCommand cmd(obj1); // ClockCommand for obj1 defined here.
  *			...
  *		cmd.execute();
  */
