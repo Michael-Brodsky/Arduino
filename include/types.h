@@ -1,7 +1,8 @@
 /*
- *	This file defines several plain-old-data (POD) types that are useful for 
- *	adding context to type declarations and fixing type-correctness issues in 
- *	the Arduino API.
+ *	This file defines several plain-old-data (POD) types and constants that are 
+ *	useful for adding context to type declarations and fixing type-correctness 
+ *	issues in the Arduino API. It alse defines several object-like macros used 
+ *  in conditional compilation.
 
  *	***************************************************************************/
 
@@ -28,6 +29,32 @@
  *	along with this file. If not, see <http://www.gnu.org/licenses/>.
  *
  *	**************************************************************************/
+
+/*
+ *  Description:
+ *
+ *  This file declares the following types:
+ *
+ *        pin_t:  An unsigned integral type that holds any GPIO pin number.
+ *      msecs_t:  An unsigned integral type that represents a time in 
+ *                milliseconds.
+ *      usecs_t:  An unsigned integral type that represents a time in 
+ *                microseconds.
+ *      analog_t: An unsigned integral type that represents an analog input 
+ *                level (as converted to a digital value (see e.g. 
+ *                `analogRead()').
+ *
+ *  This file defines the following constants:
+ *
+ *      InvalidPin: constant indicating an invalid digital GPIO pin number.
+ *
+ *  This file defines the following object-like macros:
+ *
+ *      __HAS_VARIADIC_TEMPLATES: defined if the implementation supports 
+ *                                variadic template arguments.
+ *              __HAS_NAMESPACES: defined if the implementation supports 
+ *                                named namespaces.
+ */
 
 #if !defined TYPES_H__
 #define TYPES_H__ 20191103L
