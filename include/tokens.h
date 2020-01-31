@@ -31,19 +31,7 @@
  *
  *	Description:
  *
- *	This file defines three macros for manipulating preprocessor tokens.
- *
- *	***************************************************************************
- *
- *	Usage:
- *
- *	#include "tokens.h"
- *
- *	***************************************************************************
- *
- *	Overview:
- *
- *	This file defines the following macros:
+ *	This file defines the following function-like macros:
  *
  *		STRINGIZE(a):		Converts the token `a' into a string literal, 
  *		CONCAT(a, b):		Concatenates tokens `a' and `b' into `ab'.
@@ -55,7 +43,7 @@
  *
  *	***************************************************************************/
 
-#ifndef TOKENS_H__
+#if !defined TOKENS_H__
 #define TOKENS_H__	20150927L
 
 #if !(defined(STRINGIZE) || defined(STRINGIZE__))
@@ -72,4 +60,4 @@
 # define CONCAT3(a, b, c)	CONCAT__(CONCAT__(a, b), c)
 #endif /* !defined(CONCAT3) ... */
 
-#endif /* !TOKENS_H__ */
+#endif /* !defined TOKENS_H__ */
