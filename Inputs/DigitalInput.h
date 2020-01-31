@@ -33,7 +33,7 @@
  */
 
 #if !defined DIGITALINPUT_H__
-#define DIGITALINPUT_H__ 
+#define DIGITALINPUT_H__ 20200122L 
 
 #include <IInput.h>		// IInput interface class.
 
