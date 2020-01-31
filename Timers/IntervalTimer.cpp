@@ -1,6 +1,7 @@
+#include "Arduino.h"
 #include "IntervalTimer.h"
 
-IntervalTimer::IntervalTimer(Interval& interval, bool start_timer) :
+IntervalTimer::IntervalTimer(Interval& interval, bool start_timer = false) :
 	IClockable(), interval_(interval), running_(), resume_(), time_()
 {
 	if (start_timer)
