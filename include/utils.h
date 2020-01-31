@@ -1,6 +1,6 @@
 /*
- *	This file defines several function-like macros for Win32 <--> Arduino 
- *	portability and convenience.
+ *	This file defines several function-like macros for MSVC11 <--> Arduino IDE 
+ *	1.8 portability and convenience.
 
  *	***************************************************************************/
 
@@ -109,7 +109,7 @@
  #elif defined ARDUINO 
   #define noreturn __attribute__((noreturn))
  #elif (defined __cplusplus && __cplusplus >= 201103L)
-  #define noreturn [[noreturn]] 
+  #define noreturn [[noreturn]] // [[noreturn]] specifier defined by C++11
  #else
   #define noreturn
  #endif
