@@ -44,20 +44,20 @@
  *	***************************************************************************/
 
 #if !defined TOKENS_H__
-#define TOKENS_H__	20150927L
+# define TOKENS_H__	20150927L
 
-#if !(defined(STRINGIZE) || defined(STRINGIZE__))
-# define STRINGIZE__(a)		#a
+# if !(defined(STRINGIZE) || defined(STRINGIZE__))
+#  define STRINGIZE__(a)		#a
 /* Converts a token into a string literal: token -> "token". */
-# define STRINGIZE(a)		STRINGIZE__(a)
-#endif /*!defined(STRINGIZE) ... */
+#  define STRINGIZE(a)		STRINGIZE__(a)
+# endif /*!defined(STRINGIZE) ... */
 
-#if !(defined(CONCAT3) || defined(CONCAT) || defined(CONCAT__))
-# define CONCAT__(a, b)		a##b
+# if !(defined(CONCAT3) || defined(CONCAT) || defined(CONCAT__))
+#  define CONCAT__(a, b)		a##b
 /* Concatenates tokens a and b into ab. */
-# define CONCAT(a, b)		CONCAT__(a, b)
+#  define CONCAT(a, b)		CONCAT__(a, b)
 /* Concatenates tokens a, b and c into abc. */
-# define CONCAT3(a, b, c)	CONCAT__(CONCAT__(a, b), c)
-#endif /* !defined(CONCAT3) ... */
+#  define CONCAT3(a, b, c)	CONCAT__(CONCAT__(a, b), c)
+# endif /* !defined(CONCAT3) ... */
 
 #endif /* !defined TOKENS_H__ */
