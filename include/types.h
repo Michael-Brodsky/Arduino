@@ -57,51 +57,51 @@
  */
 
 #if !defined TYPES_H__
-#define TYPES_H__ 20191103L
+# define TYPES_H__ 20191103L
 
-#include <stddef.h>
-#include <stdint.h>
+# include <stddef.h>
+# include <stdint.h>
 
-#if !(defined __PIN_T_DEFINED || defined pin_t)
- #if !defined __PIN_T_TYPE
-  #define __PIN_T_TYPE uint8_t
- #endif
-typedef __PIN_T_TYPE pin_t;		// Unsigned integral type that can hold any GPIO pin number.
- #define __PIN_T_DEFINED 1
-#endif // !defined __PIN_T_DEFINED ...
+# if !(defined __PIN_T_DEFINED || defined pin_t)
+#  if !defined __PIN_T_TYPE
+#   define __PIN_T_TYPE uint8_t
+#  endif
+typedef __PIN_T_TYPE pin_t;		    // Unsigned integral type that can hold any GPIO pin number.
+#  define __PIN_T_DEFINED 1
+# endif // !defined __PIN_T_DEFINED ...
 
-static const pin_t InvalidPin = 0;
+static const pin_t InvalidPin = 0;  // Constant indicating an invalid digital GPIO pin number.
 
-#if !defined __MSECS_T_DEFINED
- #if !defined __MSECS_T_TYPE
-  #define __MSECS_T_TYPE unsigned long
- #endif
-typedef __MSECS_T_TYPE msecs_t;	// Unsigned integral type that represents a time in milliseconds.
- #define __MSECS_T_DEFINED 1
-#endif // !defined __MSECS_T_DEFINED
+# if !defined __MSECS_T_DEFINED
+#  if !defined __MSECS_T_TYPE
+#   define __MSECS_T_TYPE unsigned long
+#  endif
+typedef __MSECS_T_TYPE msecs_t;	    // Unsigned integral type that represents a time in milliseconds.
+#  define __MSECS_T_DEFINED 1
+# endif // !defined __MSECS_T_DEFINED
 
-#if !defined __USECS_T_DEFINED
- #if !defined __MSECS_T_TYPE
-  #define __MSECS_T_TYPE unsigned long
- #endif
-typedef __MSECS_T_TYPE usecs_t;	// Unsigned integral type that represents a time in microseconds.
- #define __USECS_T_DEFINED 1
-#endif // !defined __USECS_T_DEFINED
+# if !defined __USECS_T_DEFINED
+#  if !defined __MSECS_T_TYPE
+#   define __MSECS_T_TYPE unsigned long
+#  endif
+typedef __MSECS_T_TYPE usecs_t;	    // Unsigned integral type that represents a time in microseconds.
+#  define __USECS_T_DEFINED 1
+# endif // !defined __USECS_T_DEFINED
 
-#if !defined __ANALOG_T_DEFINED
- #if !defined __ANALOG_T_TYPE
-  #define __ANALOG_T_TYPE uint16_t
- #endif
+# if !defined __ANALOG_T_DEFINED
+#  if !defined __ANALOG_T_TYPE
+#   define __ANALOG_T_TYPE uint16_t
+#  endif
 typedef __ANALOG_T_TYPE analog_t;	// Unsigned integral type that represents an analog input level.
- #define __ANALOG_T_DEFINED 1
-#endif // !defined __ANALOG_T_DEFINED
+#  define __ANALOG_T_DEFINED 1
+# endif // !defined __ANALOG_T_DEFINED
 
-#if (defined __cplusplus && __cplusplus >= 201103L)
- #define __HAS_VARIADIC_TEMPLATES 1
-#endif // defined __cplusplus && __cplusplus >= 201103L
+# if (defined __cplusplus && __cplusplus >= 201103L)
+#  define __HAS_VARIADIC_TEMPLATES 1
+# endif // defined __cplusplus && __cplusplus >= 201103L
 
-#if (defined _WIN32 || (defined ARDUINO && ARDUINO <= 165))
- #define __HAS_NAMESPACES 1
-#endif // defined _WIN32 || (defined ARDUINO && ARDUINO <= 165)
+# if (defined _WIN32 || (defined ARDUINO && ARDUINO <= 165))
+#  define __HAS_NAMESPACES 1
+# endif // defined _WIN32 || (defined ARDUINO && ARDUINO <= 165)
 
 #endif // !defined TYPES_H__
