@@ -1,8 +1,10 @@
-
+/*
+ *  This file declares an asynchronous analog GPIO input polling type.
+ *
  *	***************************************************************************/
 
 /*	File: AnalogInput.h
- *	Date: November 19, 2019
+ *	Date: January 20, 2020
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
