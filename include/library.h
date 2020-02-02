@@ -3,7 +3,7 @@
 
  *	***************************************************************************/
 
-/*	File: types.h
+/*	File: library.h
  *	Date: January 31, 2020
  *	Version: 0.99
  *	Author: Michael Brodsky
