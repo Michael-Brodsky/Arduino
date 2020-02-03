@@ -1,4 +1,3 @@
-//#include "Arduino.h"
 #include "IntervalTimer.h"
 
 IntervalTimer::IntervalTimer(Interval* interval) :
