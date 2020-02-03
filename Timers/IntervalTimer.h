@@ -4,7 +4,7 @@
  *	***************************************************************************/
 
 /*	File: IntervalTimer.h
- *	Date: Janury 30, 2020
+ *	Date: February 3, 2020
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -72,7 +72,7 @@
  */
 
 #if !defined INTERVALTIMER_H__
-# define INTERVALTIMER_H__ 20200130L
+# define INTERVALTIMER_H__ 20200203L
 
 # include <library.h>
 # include <ClockCommand.h>	// `IClockable' and `ICommand' interface classes.
@@ -99,6 +99,7 @@ public:
 			return *this;
 		}
 
+        // Returns `true' if the interval has elapsed, else returns `false'.
 		bool expired(msecs_t elapsed) const
 		{ 
 			return !(elapsed < interval_); 
