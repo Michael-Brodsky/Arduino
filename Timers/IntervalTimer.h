@@ -32,16 +32,50 @@
  *
  *		The `IntervalTimer' class can be used to execute a `Command' object 
  *		(see ICommand.h) asynchronously (see IClockable.h) at specified 
- *		intervals. It contains a nested class `Interval' that encapsulates the 
- *		time interval and command to execute.
+ *		intervals. It contains a nested type `Interval' that encapsulates the 
+ *		time interval and command to execute when the time interval expires.
+ *
+ *      The `IntervalTimer' constructor and `interval()' method both optionally 
+ *      take a pointer to an `IntervalTimer::Interval' object. If specified, 
+ *      it is set as the current interval. If omitted (or `nullptr'), then no 
+ *      interval is assigned (or the current interval is removed) and the 
+ *      IntervalTimer can be used as a simple lap timer by calling the `start()' 
+ *      method and periodically calling `elapsed()', which returns the time 
+ *      elapsed since `start()' was called in milliseconds. An assigned interval 
+ *      can only be triggered by the `clock()' method, which must be called 
+ *      periodically by the client. If no interval is assigned, the `clock()' 
+ *      method is ignored and need not be called.
+ *      
+ *      The `stop()'method stops the timer and saves the current elapsed time. 
+ *      A subsequent call to `start()' resumes the timer with the stored 
+ *      elapsed time (i.e. pause -> resume). The `reset()' method resets the 
+ *      elapsed time to 0. A subsequent call to `start()' restarts the 
+ *      interval from the beginning (i.e. stop -> reset -> start over).
  *
  *	Examples:
+ *
+ *  // Sketch to check the elapsed time in milliseconds: 
+ *
+ *	#include <IntervalTimer.h>
+ *
+ *  IntervalTimer timer;
+ *  msecs_t elapsed_time = 0;
+ *
+ *  void setup()
+ *  {
+ *      timer.start();
+ *  }
+ *
+ *  void loop()
+ *  {
+ *      elapsed_time = timer.elapsed();
+ *  }
  *
  *	// Sketch to blink the on-board LED every second: 
  *
  *	#include <IntervalTimer.h>
  *
- *	class LedToggleCommand : public ICommand
+ *	class LedToggleCommand : public ICommand    // Encapsulates led blink code in a command object.
  *	{
  *	public:
  *	  LedToggleCommand(pin_t led_pin, bool led_on = false) : 
@@ -49,7 +83,7 @@
  *	public:
  *	  void execute() override 
  *	  { 
- *		led_on_ = !led_on_; 
+ *		led_on_ = !led_on_; // Switches the LED state on <--> off.
  *		digitalWrite(led_pin_, led_on_); 
  *	  }
  *	private:
@@ -59,15 +93,16 @@
  *	
  *	LedToggleCommand led_toggle(13);
  *	IntervalTimer::Interval led_interval(1000, led_toggle);
- *	IntervalTimer led_timer(led_interval, true);
+ *	IntervalTimer led_timer(&led_interval);
  *	
  *	void setup() 
  *	{
+ *      led_timer.start();
  *	}
  *	
  *	void loop() 
  *	{
- *	  iclock(led_timer);
+ *	  iclock(led_timer);    // Executes led_toggle command every 1000 ms.
  *	}
  */
 
