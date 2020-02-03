@@ -1,62 +1,64 @@
-#include "Arduino.h"
+//#include "Arduino.h"
 #include "IntervalTimer.h"
 
-IntervalTimer::IntervalTimer(Interval& interval, bool start_timer = false) :
+IntervalTimer::IntervalTimer(Interval* interval) :
 	IClockable(), interval_(interval), running_(), resume_(), time_()
 {
-	if (start_timer)
-		start();
 }
 
-void IntervalTimer::interval(Interval& intvl, bool rst = false)
+void IntervalTimer::interval(Interval* interval)
 {
-	interval_ = intvl;
-	if (rst)
+	interval_ = interval;
+	if(running_)
 		reset();
 }
 
 msecs_t IntervalTimer::elapsed() const
 {
-	return millis() - time_;
+	return running_ ? millis() - time_ : time_;
 }
 
 void IntervalTimer::start()
 {
-	msecs_t now = millis();
-
-	if (resume_)
-		time_ = now - interval_.interval_ + time_;
-	else
-		reset();
-	resume_ = false;
-	running_ = true;
+	if (!running_)
+	{
+		running_ = true;
+		if (resume_)
+		{
+			time_ = elapsed();
+			resume_ = false;
+		}
+		else
+			reset();
+	}
 }
 
 void IntervalTimer::stop()
 {
-	running_ = false;
-	resume_ = true;
-	time_ = elapsed();
+	if (running_)
+	{
+		time_ = elapsed();
+		running_ = false;
+		resume_ = true;
+	}
 }
 
 void IntervalTimer::reset()
 {
-	if (running_)
-		time_ = millis();
-	else
-		resume_ = false;
+	time_ = running_ ? millis() : 0;
+	resume_ = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
 void IntervalTimer::clock() 
 {
-	if (running_ && !(elapsed() < interval_.interval_))
+	if (running_ && interval_ && interval_->expired(elapsed()))
 		trigger();
 }
 
 void IntervalTimer::trigger()
 {
+	interval_->command_.execute();
 	reset();
-	interval_.command_.execute();
 }

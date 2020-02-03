@@ -72,9 +72,10 @@
  */
 
 #if !defined INTERVALTIMER_H__
-#define INTERVALTIMER_H__ 20200130L
+# define INTERVALTIMER_H__ 20200130L
 
-#include <ClockCommand.h>	// `IClockable' and `ICommand' interface classes.
+# include <library.h>
+# include <ClockCommand.h>	// `IClockable' and `ICommand' interface classes.
 
 class IntervalTimer : public IClockable	// Interval timer type.
 {
@@ -97,15 +98,20 @@ public:
 			command_ = other.command_;
 			return *this;
 		}
+
+		bool expired(msecs_t elapsed) const
+		{ 
+			return !(elapsed < interval_); 
+		}
 	};
 
 public:
 	// Assignment constructor.
-	IntervalTimer(Interval&, bool);
+	explicit IntervalTimer(Interval* interval = nullptr);
 
 public:
 	// Assigns the specified timer interval.
-	void	interval(Interval&, bool);
+	void	interval(Interval* interval = nullptr);
 
 	// Returns the current timer interval's elapsed time.
 	msecs_t elapsed() const;
@@ -127,7 +133,7 @@ private:
 	void	trigger();
 
 private:
-	Interval&	interval_;	// The current timer interval.
+	Interval*	interval_;	// The current timer interval.
 	bool		running_;	// Flag indicating whether the timer is currently running.
 	bool		resume_;	// Flag indicating whether current interval will resume or be reset when started.
 	msecs_t		time_;		// Stores the current timer interval's start/elapsed time.
