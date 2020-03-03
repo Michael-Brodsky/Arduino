@@ -118,7 +118,7 @@ public:     /*** Member Types and Constants ***/
 	struct Interval	// IntervalTimer interval type.
 	{
 		msecs_t interval_;	// Time interval in milliseconds.
-		ICommand& command_;	// Command to execute when elapsed.
+		ICommand& command_;	// Command to execute when interval elapsed.
 
 		// Assignment constructor.
 		Interval(msecs_t interval, ICommand& command) :
