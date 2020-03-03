@@ -109,12 +109,12 @@
 #if !defined INTERVALTIMER_H__
 # define INTERVALTIMER_H__ 20200203L
 
-# include <library.h>
+# include <library.h>       // `msecs_t' type.
 # include <ClockCommand.h>	// `IClockable' and `ICommand' interface classes.
 
 class IntervalTimer : public IClockable	// Interval timer type.
 {
-public:
+public:     /*** Member Types and Constants ***/
 	struct Interval	// IntervalTimer interval type.
 	{
 		msecs_t interval_;	// Time interval in milliseconds.
@@ -141,11 +141,11 @@ public:
 		}
 	};
 
-public:
+public:     /*** Ctors ***/
 	// Assignment constructor.
 	explicit IntervalTimer(Interval* interval = nullptr);
 
-public:
+public:     /*** Member Functions ***/
 	// Assigns the specified timer interval.
 	void	interval(Interval* interval = nullptr);
 
@@ -168,7 +168,7 @@ private:
 	// Resets the current timer interval and executes its `Command' object.
 	void	trigger();
 
-private:
+private:    /*** Member Objects ***/
 	Interval*	interval_;	// The current timer interval.
 	bool		running_;	// Flag indicating whether the timer is currently running.
 	bool		resume_;	// Flag indicating whether current interval will resume or be reset when started.
