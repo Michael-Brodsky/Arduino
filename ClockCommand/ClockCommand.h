@@ -63,7 +63,7 @@ struct ClockCommand : public Command<void, IClockable>
 	explicit ClockCommand(IClockable& receiver) : 
 		Command(&receiver, static_cast<callback_t>(&IClockable::clock)) { }
 
-	virtual ~ClockCommand() { }
+	~ClockCommand() { }
 };
 
 #endif // !defined CLOCKCOMMAND_H__
