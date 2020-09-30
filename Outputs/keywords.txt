@@ -6,7 +6,7 @@
 # Library (KEYWORD3)
 #####################################
 
-IClockable	KEYWORD3
+DigitalOutput		KEYWORD3
 
 #####################################
 # Data Types (KEYWORD1)
