@@ -17,7 +17,9 @@ ISerializeable	KEYWORD3
 # Methods and Functions (KEYWORD2)
 #####################################
 
-execute	KEYWORD2
+eepromGet	KEYWORD2
+eepromPut	KEYWORD2
+eepromUpdate	KEYWORD2
 
 #####################################
 # Constants (LITERAL1)
