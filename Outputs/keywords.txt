@@ -7,18 +7,18 @@
 #####################################
 
 DigitalOutput		KEYWORD3
+OutputToggleCommand KEYWORD3
+OutputStateCommand KEYWORD3
 
 #####################################
 # Data Types (KEYWORD1)
 #####################################
 
-
 #####################################
 # Methods and Functions (KEYWORD2)
 #####################################
 
-iclockable	KEYWORD2
-iclock	KEYWORD2
+execute KEYWORD2
 
 #####################################
 # Constants (LITERAL1)
