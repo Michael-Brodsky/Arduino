@@ -6,6 +6,7 @@
 # Library (KEYWORD3)
 #####################################
 
+LCD	KEYWORD3
 Position	KEYWORD3
 Cursor  KEYWORD3
 
