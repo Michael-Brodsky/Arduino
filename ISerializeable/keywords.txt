@@ -6,9 +6,7 @@
 # Library (KEYWORD3)
 #####################################
 
-ICommand	KEYWORD3
-NullCommand	KEYWORD3
-Command	KEYWORD3
+ISerializeable	KEYWORD3
 
 #####################################
 # Data Types (KEYWORD1)
