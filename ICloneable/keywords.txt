@@ -6,9 +6,7 @@
 # Library (KEYWORD3)
 #####################################
 
-ICommand	KEYWORD3
-NullCommand	KEYWORD3
-Command	KEYWORD3
+ICloneable 	KEYWORD3
 
 #####################################
 # Data Types (KEYWORD1)
@@ -19,7 +17,8 @@ Command	KEYWORD3
 # Methods and Functions (KEYWORD2)
 #####################################
 
-execute	KEYWORD2
+clone KEYWORD2
+create  KEYWORD2
 
 #####################################
 # Constants (LITERAL1)
