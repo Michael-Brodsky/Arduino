@@ -1,0 +1,60 @@
+#######################################################
+# Syntax Coloring Map for STL
+#
+# There are hundreds of types, methods and functions 
+# defined in the `STL' headers and there literally 
+# isn't enough time in the day for me to address the 
+# shortcomings of the Arduino "editor". My advice: use 
+# a real IDE. I recommend Microsoft Visual Studio with 
+# the appropriate plugins.
+#######################################################
+
+#####################################
+# Library (KEYWORD3)
+#####################################
+
+defined	KEYWORD3		PREPROCESSOR
+
+#####################################
+# Functions and Methods (ORANGE)
+#####################################
+
+#####################################
+# Data Types (LT BLUE)
+# A few of the common types likely to
+# be encountered by developers are 
+# defined below.
+#####################################
+
+std_array	LITERAL1
+std_iterator	LITERAL1
+std_pair	LITERAL1
+ConstReverseIterator	LITERAL1
+ReverseIterator	LITERAL1
+ArrayWrapper	LITERAL1
+std_input_iterator_tag	LITERAL1
+std_output_iterator_tag	LITERAL1
+std_forward_iterator_tag	LITERAL1
+std_bidirectional_iterator_tag	LITERAL1
+std_random_access_iterator_tag	LITERAL1
+std_iterator_traits	LITERAL1
+iterator_category	LITERAL1
+iterator_type	LITERAL1
+self_type	LITERAL1
+value_type	LITERAL1
+size_type	LITERAL1
+difference_type	LITERAL1
+reference	LITERAL1
+const_reference	LITERAL1
+pointer	LITERAL1
+const_pointer	LITERAL1
+iterator	LITERAL1
+const_iterator	LITERAL1
+reverse_iterator	LITERAL1
+const_reverse_iterator	LITERAL1
+first_type	LITERAL1
+second_type	LITERAL1
+
+#####################################
+# Constants (LT BLUE)
+#####################################

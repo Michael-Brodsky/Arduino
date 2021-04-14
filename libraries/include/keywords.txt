@@ -1,0 +1,40 @@
+#####################################
+# Syntax Coloring Map for "include"
+#####################################
+
+#####################################
+# Library (KEYWORD3)
+#####################################
+
+defined	KEYWORD3		PREPROCESSOR
+_typename	KEYWORD3		PREPROCESSOR
+
+#####################################
+# Functions and Methods (ORANGE)
+#####################################
+
+Stringize	KEYWORD2
+Concat	KEYWORD2
+Concat3	KEYWORD2
+AssertMsg	KEYWORD2
+Print	KEYWORD2
+PrintLn	KEYWORD2
+Timer0Int	KEYWORD2
+NoTimer0Int	KEYWORD2
+
+#####################################
+# Data Types (LT BLUE)
+#####################################
+
+pin_t	LITERAL1
+msecs_t	LITERAL1
+usecs_t	LITERAL1
+analog_t	LITERAL1
+
+#####################################
+# Constants (LT BLUE)
+#####################################
+
+__HAS_VARIADIC_TEMPLATES	LITERAL1
+__HAS_NAMESPACES	LITERAL1
+ANALOG_MAX	LITERAL1
