@@ -105,13 +105,14 @@
 #if !defined ANALOGKEYPAD_H__ 
 # define ANALOGKEYPAD_H__ 20210409L
 
-#include "IClockable.h"	// `IClockable' interface type.
-#include "Timer.h"	        // `Timer' type.
+#include "IClockable.h"	// `IClockable' interface.
+#include "IComponent.h"	// `IComponent' interface.
+#include "Timer.h"	    // `Timer' type.
 
 enum class ButtonTag;       // Forward decl, button tags are user-defined.
 
 // Type that encapsulates behaviors of a keypad attached to an analog GPIO input.
-class Keypad : public IClockable 
+class Keypad : public IClockable, public IComponent
 {
 public:
     // Enumerates valid keypad events.
