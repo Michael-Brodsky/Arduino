@@ -1,0 +1,4 @@
+Time
+
+This is a copy of @Paul-Stoffregen's Arduino "Time" library. It is a dependency
+to several libraries in this repo and so is included here.
