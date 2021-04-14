@@ -33,15 +33,8 @@
  *		The `Serializer' class offers the convenience of tracking the current
  *		EEPROM read/write address so clients don't have to. This is useful
  *		in preventing address corruption when serializing many objects or
- *		large amounts of data.
- *
- *		`ISerializeable' is an abstract base type that serializable types
- *		should derive from. It declares two purely virtual methods:
- *		`serialize()' and `deserialize()' that must be implemented in derived
- *		types. The intent is to allow clients to define generic, untemplated
- *		methods to handle object serialization/deserialization that take any
- *		objects of type `ISerializeable' regardless of the derived object's
- *		actual type.
+ *		large amounts of data. It also contains function templates for 
+ *      for serializing/deserializing objects of any type and collections.
  *
  *		The `eepromGet()' function template offers an alternative to the
  *		Arduino API `EEPROM.get()' function by returning a value read from
@@ -65,11 +58,6 @@
  *		one byte of data at a time. `eepromUpdate()' can update values of any
  *		type, like the Arduino `EEPROM.get()' and `EEPROM.put()' functions,
  *		with a single line of client code.
- *
- *		The `load() function overloads create and return either a new,
- *		deserialized objects or collection of objects of a specified type. The
- *		`store()' function overloads serialize either an object or collection
- *		of objects of a specified type to the onboard EEPROM.
  *
  *	***************************************************************************/
 
