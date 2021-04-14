@@ -1,0 +1,19 @@
+STL 
+
+Implements basic features of the C++ Standard Template Library (STL).
+
+This is a work in progress. Currently there is only one STL container 
+type: std::array and an ArrayWrapper type for encapsulating C-style 
+arrays of indeterminate size to give them the same behaviors as 
+std::array. The type is fully supported with member functions, non-
+member functions, iterators and algorithms according to the std::array 
+specification.
+
+The shortcomings of the Arduino platform place limitations on what and 
+how features are supported. The lack of full namespace support requires 
+types names be unique in the global namespace to prevent conflicts. 
+Therefore all STL object names are preceded by "std_". For example 
+std::array is std_array, std::iterator is std_iterator, std::begin is 
+std_begin, and so on. Features that are supported and implemented in this 
+library behave according to the STL specification and should be familiar
+to the developer. 
