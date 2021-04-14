@@ -60,12 +60,13 @@
 # define DIGITALCLOCK_H__ 20210409L
 
 #include <TimeLib.h>		// Arduino time lib.
-#include "ISerializeable.h"	// Eeprom support.
+#include "Serializer.h"		// Eeprom support.
 #include "array.h"			// `std_array' type.
 #include "IClockable.h"		// `IClockable' interface (for client alarm checking).
+#include "IComponent.h"		// `IComponent' interface.
 
 // Type that encapsulates the behavior of a digital clock.
-class DigitalClock : public IClockable 
+class DigitalClock : public IClockable, public IComponent 
 {
 public:
 	// Enumerates the valid operating modes.
