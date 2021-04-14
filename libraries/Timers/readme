@@ -1,0 +1,8 @@
+Timers 
+
+Exposes two types for managing timed events.
+
+The Timer type is a simple interval timer that clients can use 
+to time application events. The CommandTimer type extends the 
+capabilities of Timer to execute "Command" objects at specified 
+intervals (see also <ICommand.h>).
