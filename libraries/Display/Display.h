@@ -142,7 +142,7 @@ public:
 	};
 
 	using iterator = Screen::iterator;	// Display iterator type.
-	using Callback = void(*)();
+	using Callback = void(*)();         // Client callback type.
 
 public:
 	Display(LiquidCrystal&, Callback, Screen* screen = nullptr);
