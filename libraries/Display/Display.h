@@ -90,13 +90,14 @@
 #if !defined DISPLAY_H__
 #define DISPLAY_H__ 20210406L
 
-#include "iterator.h"		// std_begin(), std_end() & std_distance()
+#include "iterator.h"	// std_begin(), std_end() & std_distance()
 #include "IClockable.h"	// `IClockable' and `ICommand' interfaces.
+#include "IComponent.h"	// `IComponent' interface.
 #include "Curses.h"		// `Cursor' type.
-#include "Timer.h"			// `Timer' type.
+#include "Timer.h"		// `Timer' type.
 
 // Asynchronous LCD display management type.
-class Display : public IClockable
+class Display : public IClockable, public IComponent 
 {
 public:
 	// Enumerates the valid display modes.
