@@ -1,1 +1,4 @@
+Serialization Library
 
+Exposes types and function templates for serializing and deserializing 
+objects to and from the onboard EEPROM.
