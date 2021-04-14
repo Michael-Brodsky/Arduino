@@ -1,4 +1,4 @@
-Interfaces
+Interfaces Library
 
 Declares several abstract interface classes for implementing C++ "design patterns" 
 and functionality commonly encountered in microcontroller development.
