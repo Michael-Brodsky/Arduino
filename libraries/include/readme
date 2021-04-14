@@ -1,6 +1,6 @@
-include 
+Dependencies Library 
 
-Dependencies required by other libraries in this repo.
+Defines types and objects required by other libraries in this repo.
 
 Exposes the Arduino API, declares several POD types that are 
 more type appropriate and const-correct than those defined in 
