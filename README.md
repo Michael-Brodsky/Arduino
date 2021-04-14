@@ -1,2 +1,7 @@
 # Arduino
-Arduino Libraries
+Arduino Libraries & Examples
+
+This repo is a collection of libraries containing generic types, interfaces, 
+utilities and algorithms suitable for a wide range of applications. Useage
+examples and sketches are available in the /examples directory.
+
