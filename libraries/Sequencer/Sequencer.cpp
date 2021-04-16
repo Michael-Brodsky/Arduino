@@ -33,16 +33,20 @@ void Sequencer::reset()
 {
 	rewind();
 	if (status() == Status::Active)
+	{
+		event_timer_.reset();
 		begin();
+	}
 	else
-		event_timer_.interval(0);
+		event_timer_.interval(0); // "Flag" to indicate sequencer is reset.
+
 }
 
 void Sequencer::resume()
 {
 	if (status() == Status::Idle)
 	{
-		if (event_timer_.interval() == 0)
+		if (event_timer_.interval() == 0) // "Flag" to indicate sequencer is reset.
 			start();
 		else
 			event_timer_.resume();
@@ -53,6 +57,7 @@ void Sequencer::next()
 {
 	if (++current_ == end_)
 		current_ = begin_;
+	event_timer_.reset();
 }
 
 void Sequencer::prev()
@@ -60,6 +65,7 @@ void Sequencer::prev()
 	if (current_ == begin_)
 		current_ = end_;
 	--current_;
+	event_timer_.reset();
 }
 
 void Sequencer::wrap(bool value)
