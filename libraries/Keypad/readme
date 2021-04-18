@@ -1,4 +1,0 @@
-Keypad Component
-
-Exposes a type that encapsulates the behavior of a keypad attached to 
-a GPIO analog input.
