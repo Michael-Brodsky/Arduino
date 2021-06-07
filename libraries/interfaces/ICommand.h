@@ -110,12 +110,13 @@ struct ICloneCommand : public ICommand, public ICloneable
 	virtual ~ICloneCommand() = default;
 };
 
+// Serializable command interface.
 struct ISerializableCommand : public ICommand, public ISerializeable
 {
 	virtual ~ISerializableCommand() = default;
 };
 
-// Serializable command interface.
+// Cloneable serializable command interface.
 struct ISerialCommand : public ICloneCommand, public ISerializeable
 {
 	virtual ~ISerialCommand() = default;
