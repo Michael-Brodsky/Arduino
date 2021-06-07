@@ -69,7 +69,7 @@
 # define NoTimer0Int TIMSK0 &= ~_BV(OCIE0A);					// Disable Timer0 cmp interrupt.
 # define Timer0Int(val) OCR0A = (val); TIMSK0 |= _BV(OCIE0A);	// Sets Timer0 cmp interrupt to trigger on `val'.
 
-void(*resetFunc)(void) = 0;
+void(*resetFunc)(void) = 0;	// Reboots the Arduino device.
 
 #ifdef __arm__
 // should use uinstd.h to define sbrk but Due causes a conflict
@@ -78,7 +78,9 @@ extern "C" char* sbrk(int incr);
 extern char* __brkval;
 #endif  // __arm__
 
-int freeMemory() {
+// Returns the amount of free heap memory.
+int freeMemory() 
+{
 	char top;
 #ifdef __arm__
 	return &top - reinterpret_cast<char*>(sbrk(0));
