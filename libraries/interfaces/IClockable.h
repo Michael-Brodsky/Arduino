@@ -74,7 +74,7 @@ struct IClockable
 {
 	virtual void clock() = 0;
 
-	~IClockable() {}
+	virtual ~IClockable() = default;
 };
 
 // Command type to call `clock()' method of IClockable objects.
