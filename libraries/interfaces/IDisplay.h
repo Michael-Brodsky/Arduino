@@ -46,7 +46,7 @@
 
 struct IDisplay : public IClockable, public IComponent
 {
-	~IDisplay() {}
+	virtual ~IDisplay() = default;
 
 	virtual void refresh() = 0; // Refreshes the display.
 };
