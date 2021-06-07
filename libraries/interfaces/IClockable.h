@@ -33,7 +33,7 @@
  *	The `IClockable' type is an abstract interface class with one purely 
  *	virtual method `clock()' which must be implemented by derived types. It 
  *	is useful when several tasks, encapsulated in `IClockable' objects, need 
- *	be executed asynchronously by the client, such as in multitasking or 
+ *	to be executed asynchronously by the client, such as in multitasking or 
  *	time-sensitive applications (see e.g. <TaskScheduler.h>). 
  * 
  *	The `ClockCommand' type is a concrete type derived from `ICommand' (see 
