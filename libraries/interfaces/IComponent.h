@@ -38,7 +38,7 @@ struct IComponent
 {
 	IComponent(IMediator* mediator = nullptr) : mediator_(mediator) {} 
 
-	~IComponent() = default;
+	virtual ~IComponent() = default;
 	
 	void mediator(IMediator* mediator) { mediator_ = mediator; }
 
