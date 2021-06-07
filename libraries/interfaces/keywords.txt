@@ -20,6 +20,7 @@ mediator	KEYWORD2
 notify	KEYWORD2
 clone	KEYWORD2
 create	KEYWORD2
+refresh	KEYWORD2
 
 #####################################
 # Data Types (LT BLUE)
