@@ -37,7 +37,7 @@ class Notification;	// Forward decl for user-defined notification type.
 // Mediator abstract interface class.
 struct IMediator
 {
-	~IMediator() = default;
+	virtual ~IMediator() = default;
 
 	virtual void notify(IComponent* sender, const Notification& event) const = 0;
 };
