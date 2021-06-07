@@ -21,6 +21,7 @@ notify	KEYWORD2
 clone	KEYWORD2
 create	KEYWORD2
 refresh	KEYWORD2
+sweep	KEYWORD2
 
 #####################################
 # Data Types (LT BLUE)
@@ -42,6 +43,8 @@ NullCommand	LITERAL1
 Command		LITERAL1
 ICloneable	LITERAL1
 IDisplay	LITERAL1
+ISerializeable	LITERAL1
+IServo		LITERAL1
 
 #####################################
 # Constants (LT BLUE)
