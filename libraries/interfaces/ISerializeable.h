@@ -48,7 +48,7 @@ class EEPROMStream;	// EEPROM stream type forward decl.
 // Serializeable type abstract interface class.
 struct ISerializeable
 {
-	virtual ~ISerializeable() {}
+	virtual ~ISerializeable() = default;
 
 	virtual void serialize(EEPROMStream&) const = 0;
 	virtual void deserialize(EEPROMStream&) = 0;
