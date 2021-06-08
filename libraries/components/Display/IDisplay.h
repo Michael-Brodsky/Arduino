@@ -26,13 +26,6 @@
  *  You should have received a copy of the GNU General Public License
  *	along with this file. If not, see <http://www.gnu.org/licenses/>.
  *
- *	***************************************************************************
- *
- *	Description:
- *
- *		`IDisplay' is an abstract interface class that provides a common
- *		interface for components that manage character displays. 
- *
  *	***************************************************************************/
 
 #if !defined IDISPLAY_H__
