@@ -1,2 +1,2 @@
-This library defines a concrete base type for crteating objects that require 
+This library defines a concrete base type for creating objects that require 
 a unique identifier.
