@@ -1,6 +1,6 @@
 /*
- *	This file defines several types and functions for dealing with fixed-size 
- *	sequence containers.
+ *	This file defines several C++ Standard Template Library (STL) fixed-size 
+ *	array types and functions.
  *
  *  ***************************************************************************
  *
@@ -30,27 +30,39 @@
  *
  *	Description:
  *
- *		The `std_array' type is modelled after the STL `std::array' type  and 
- *		encapsulates the same behaviors. This file also defines all non-member 
- *		functions per the ISO C++ specification for `std::array' and applies 
- *		them to `std_array'.
+ *		This file defines many of the objects in the <array> header of 
+ *		a C++ Standard Template Library (STL) implementation. The library 
+ *		defines objects for dealing with fixed-size arrays. The `std_array' 
+ *		type is modelled after the STL `std::array' type and conforms to 
+ *		the specifications for a `Container' object per the C++11 ISO Standard. 
+ * 
+ *		The Standard requires that STL objects reside in the `std' namespace.
+ *		However, because later implementations of the Arduino IDE lack 
+ *		namespace support, this entire library resides in the global namespace 
+ *		and, to avoid naming collisions, all standard object names are 
+ *		preceded by `std_'. Thus, for example:
+ * 
+ *			std::find = std_find, 
+ *			std::begin = std_begin,
+ *			std::end = std_end, 
+ * 
+ *		and so forth. Otherwise object names are identical to those defined 
+ *		by the Standard.
+ * 
+ *	Notes:
  * 
  *		For simplicity, `std_array' iterators are simple pointers, as these 
  *		meet the specification for `Random Access Iterator'. Two iterator 
  *		adaptors, `ReverseIterator' and `ConstReverseIterator', are also 
  *		defined, but are not nested types within `std_array'. The rationale is 
  *		since the vast majority of microcontroller applications do not use 
- *		dynamic memory allocation, any container types, as well as their 
- *		iterators can be implemented in terms of `std_array' and adapted as 
- *		necessary.
+ *		dynamic memory allocation, any sequence container types that as well 
+ *		as their iterators can be implemented in terms of `std_array' and 
+ *		adapted as necessary.
  * 
- *		The `ArrayWrapper' is a wrapper class for C-style arrays of   
+ *		The `ArrayWrapper' type is a wrapper class for C-style arrays of   
  *		indeterminate size, e.g. T arr[], and gives these types the same 
  *		capabilities as `std_array'. 
- * 
- *		Notes:
- * 
- *			This is a work in-progress and subject to change.
  * 
  *	**************************************************************************/
 
@@ -1202,16 +1214,23 @@ bool operator>=(const std_array<T, Size>& lhs, const std_array<T, Size>& rhs)
 
 #pragma region miscellaneous_functions
 
-// Returns the size in elements of `t'.
+// Returns the size in elements of container `c'.
+template<class C>
+constexpr auto size_of(C& c) -> decltype(c.size())
+{
+	return c.size();
+}
+
+// Returns the size in elements of array `t'.
 template<class T, size_t Size>
-size_t size_of(T (&t)[Size]) 
+constexpr size_t size_of(T (&t)[Size]) 
 { 
 	return Size; 
 }
 
 // Returns the size in memory of `t'.
 template<class T, size_t Size>
-size_t memsize(T (&t)[Size])
+constexpr size_t memsize(T (&t)[Size])
 {
 	return sizeof(T) * Size;
 }
