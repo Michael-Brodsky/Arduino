@@ -1,5 +1,6 @@
 /*
- *	This file is part of the STL-style type support library.
+ *	This file defines several objects in the C++ Standard Template Library 
+ *	(STL) type support library.
  *
  *	***************************************************************************
  *
@@ -29,7 +30,22 @@
  * 
  *	Description:
  * 
- *		This file is still under development.
+ *		This file defines some of the objects in the <type_traits> header of
+ *		a C++ Standard Template Library (STL) implementation. The objects
+ *		behave according to the ISO C++11 Standard:	(ISO/IEC 14882:2011).
+ *
+ *		The Standard requires that STL objects reside in the `std' namespace.
+ *		However, because later implementations of the Arduino IDE lack
+ *		namespace support, this entire library resides in the global namespace
+ *		and, to avoid naming collisions, all standard object names are
+ *		preceded by `std_'. Thus, for example:
+ *
+ *			std::find = std_find,
+ *			std::begin = std_begin,
+ *			std::end = std_end,
+ *
+ *		and so forth. Otherwise object names are identical to those defined
+ *		by the Standard.
  * 
  *	**************************************************************************/
 
@@ -52,6 +68,9 @@ struct std_integral_constant
 		return value;
 	}
 };
+
+template<bool B>
+using std_bool_constant = std_integral_constant<bool, B>;
 
 template<bool B, class T, class F>
 struct std_conditional { typedef T type; };
@@ -315,6 +334,9 @@ public:
 template< class T >
 using std_decay_t = typename std_decay<T>::type;
 
+template<class B>
+struct std_negation : std_bool_constant<!bool(B::value)> { };
+
 template <typename...>
 using std_void_t = void;
 
@@ -362,5 +384,22 @@ struct std_common_type<T1, T2, R...>
 
 template< class... T >
 using std_common_type_t = typename std_common_type<T...>::type;
+
+namespace 
+{
+	template<class T>
+	struct is_pointer_helper : std_false_type {};
+
+	template<class T>
+	struct is_pointer_helper<T*> : std_true_type {};
+}
+template<class T>
+struct std_is_pointer : is_pointer_helper< typename std_remove_cv<T>::type > {};
+
+template< class T > struct std_remove_pointer { typedef T type; };
+template< class T > struct std_remove_pointer<T*> { typedef T type; };
+template< class T > struct std_remove_pointer<T* const> { typedef T type; };
+template< class T > struct std_remove_pointer<T* volatile> { typedef T type; };
+template< class T > struct std_remove_pointer<T* const volatile> { typedef T type; };
 
 #endif // !defined TYPE_TRAITS_H__

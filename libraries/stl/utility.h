@@ -1,5 +1,6 @@
 /*
- *	This file is part of the STL-style general utility library.
+ *	This file defines several types and functions in the C++ Standard Template 
+ *	Library (STL) general utility library.
  *
  *	***************************************************************************
  *
@@ -27,9 +28,24 @@
  *
  *	**************************************************************************
  *
- *	Description:
+*	Description:
  *
- *		This file is still under development.
+ *		This file defines some of the objects in the <utility> header of
+ *		a C++ Standard Template Library (STL) implementation. The objects
+ *		behave according to the ISO C++11 Standard:	(ISO/IEC 14882:2011).
+ *
+ *		The Standard requires that STL objects reside in the `std' namespace.
+ *		However, because later implementations of the Arduino IDE lack
+ *		namespace support, this entire library resides in the global namespace
+ *		and, to avoid naming collisions, all standard object names are
+ *		preceded by `std_'. Thus, for example:
+ *
+ *			std::find = std_find,
+ *			std::begin = std_begin,
+ *			std::end = std_end,
+ *
+ *		and so forth. Otherwise function names are identical to those defined
+ *		by the Standard.
  *
  *	**************************************************************************/
 
@@ -61,6 +77,7 @@ void std_swap(T& a, T& b)
 	a = std_move(b);
 	b = std_move(tmp);
 }
+
 template<class T, size_t N>
 void std_swap(T (&a)[N], T (&b)[N])
 {
