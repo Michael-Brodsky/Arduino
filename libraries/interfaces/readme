@@ -1,0 +1,5 @@
+This library consists of several files that declare abstract interface types used by  
+modern C++ design patterns.
+
+FILES:
+<ICommand.> - interface type for implementing the "Command" pattern.
