@@ -1,0 +1,22 @@
+This directory contains project files for a Programmable Rotary Actuator device
+implemented on an Arduino Uno with an attached LCD/Keypad Shield. The device 
+controls a servo motor that can be used to position rotary valves or similar 
+mechanisms automatically according to a user-defined sequence and timing 
+intervals. The device is controllable, programmable and configurable directly, 
+via the LCD/Keypad Shield, or remotely via a serial communications protocol. 
+A video demonstration can be viewed here:
+
+https://www.instagram.com/p/CQFh_5AHQNW/
+
+FILES:
+ProgrammableRotaryActuator.ino - top-level project file.
+config.h - project configuration file.
+Win32Setup.zip - Windows installer/setup for serial remote control app (optional).
+
+NOTES:
+This project has several library dependencies and users should download and 
+install all of the files in `/libraries' to a suitable location for Arduino 
+libraries on their local machine.
+
+A brief description and usage is included as inline comments in the top-level 
+project file.
