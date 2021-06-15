@@ -1,0 +1,8 @@
+This library defines several types and functions for serializing/deserializing 
+objects to and from the Arduino's EEPROM memory. 
+
+FILES: 
+<EEPROMStream.h>, <EEPROMStream.cpp> - defines a streaming class and support 
+                                       functions for streaming data into and 
+                                       out of the Arduino EEPROM memory.
+<ISerializable.h> - abstract interface type for serializable objects.
