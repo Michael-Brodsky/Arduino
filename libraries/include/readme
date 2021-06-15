@@ -7,3 +7,7 @@ FILES:
 <tokens.h> - common macros found in old `C' programs used to manipulate macro tokens.
 <types.h> - POD type definitions and conditional compilation macros.
 <utils.h> - low-level utility functions.
+
+NOTES:
+Macros are evil. It is my intent to replace all object-like macros with appropriate C++11 objects, 
+such as `static const', `constexpr', etc. and all function-like macros with actual functions.
