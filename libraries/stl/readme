@@ -1,0 +1,30 @@
+This is a collection of the most commonly used types, functions and algorithms 
+from the C++11 Standard Template Library (STL) that are supported by the 
+current Arduino IDE. The library objects provide generic, reusable solutions 
+to common problems encountered in microcontroller application development. 
+
+To the extent possible, the library objects are implemented and behave according 
+to the C++11 ISO Standard (ISO/IEC 14882:2011). Differences are noted as inline 
+comments in the library files. The most obvious difference is in the object 
+identifiers (names). Because later Arduino IDE implementations lack namespace 
+support, all of the library objects reside in the global instead of the `std' 
+namespace. To avoid naming conflicts, the standard identifiers are preceded 
+with "std_", for example:
+
+  std::find = std_find, 
+  std::begin = std_begin, 
+  std::end = std_end, 
+  
+and so forth. Otherwise object names are identical to those defined by the 
+Standard.
+
+Library objects are organized into files having the same name as the 
+corresponding STL file, but with the `.h' extension. The one notable 
+exception is <numeric_limits.h>. The Standard specifies that this file 
+should be called <limits>. However, this would create a conflict with the 
+cstdlib file <limits.h> since the Arduino IDE requires the `.h' extension on 
+all header files. Therefore <numeric_limits.h> was chosen. 
+
+NOTES:
+This is a work in progress. The C++ STL is HUGE and so I've implemented this 
+library on an "as needed" basis, when time allows. It is by no means complete.
