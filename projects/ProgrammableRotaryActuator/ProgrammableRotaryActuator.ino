@@ -3,8 +3,8 @@
  *
  *	***************************************************************************
  *
- *	File: Sequencer 4.ino
- *	Date: May 31, 2021
+ *	File: ProgrammableRotaryActuator.ino
+ *	Date: June 10, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -142,11 +142,11 @@
  * 
  *	********************
  *  * Auto:01   Closed *
- *  *      0° 00:00:10 *
+ *  *      0Â° 00:00:10 *
  *	********************
  * 
  *	  Mode:nn    "Name"
- *	      ddd° hh:mm:ss
+ *	      dddÂ° hh:mm:ss
  * 
  *	Mode:    current operating mode
  *	nn:      event number (1, 2, 3, ...)
@@ -162,8 +162,6 @@
  * 
  *	**************************************************************************/
 
-#include <numeric_limits.h>
-#include <numeric.h>
 #include "config.h"
 //#define NOEEPROM 1	// Rewrites corrupted/missing EEPROM data. Uncomment & upload
 						// when running sketch for first time, or if EEPROM becomes 
@@ -278,18 +276,6 @@ const SerialRemote::Command serial_cmds[] =
 	SerialRemote::Command(CommandTag::List, SerialListString, &list_cmd),		// List current sequence.
 	SerialRemote::Command(CommandTag::Store, SerialStoreString, &store_cmd)		// Store new sequence & reboot.
 };
-/* Future expansion: 
-	lda: load events from eeprom, 
-	sts: return sequencer status, 
-	evt: get/set current event index,
-	exe: exec current event,
-	mod: get/set operating mode,  
-	ini: reboot, 
-	ste: set servo step size, 
-	inv: set servo interval size,
-	ack: get/set acknowledge mode, 
-	bcs: get/set broadcast mode.
-*/
 
 /* Hardware objects */
 
@@ -331,7 +317,6 @@ actuator_command_type _commands[MaxEventRecords * 2U];
 event_type _events[MaxEventRecords * 2U];
 event_type* events[MaxEventRecords * 2U];
 sequence_type tmp_events;
-// Needs an MMU, of sorts, to realloc memory.
 
 /*
  * Application state objects.
