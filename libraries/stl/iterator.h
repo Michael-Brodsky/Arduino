@@ -1,5 +1,6 @@
 /*
- *	This file defines several types for dealing with STL-style iterators.
+ *	This file defines several C++ Standard Template Library (STL) iterator 
+ *	types and functions.
  *
  *	***************************************************************************
  *
@@ -24,6 +25,31 @@
  *
  *  You should have received a copy of the GNU General Public License
  *	along with this file. If not, see <http://www.gnu.org/licenses/>.
+ * 
+ *	***************************************************************************
+ * 
+ *	Description:
+ * 
+ *		This file defines many of the objects in the <iterator> header of 
+ *		a C++ Standard Template Library (STL) implementation. The library 
+ *		defines objects for dealing with iterators, i.e. objects that, pointing 
+ *		to some element in a range of elements (such as an array or a 
+ *		container), has the ability to iterate through the elements of that 
+ *		range using a set of operators. The objects behave according to 
+ *		the ISO C++11 Standard:	(ISO/IEC 14882:2011).
+ * 
+ *		The Standard requires that STL objects reside in the `std' namespace.
+ *		However, because later implementations of the Arduino IDE lack 
+ *		namespace support, this entire library resides in the global namespace 
+ *		and, to avoid naming collisions, all standard object names are 
+ *		preceded by `std_'. Thus, for example:
+ * 
+ *			std::find = std_find, 
+ *			std::begin = std_begin,
+ *			std::end = std_end, 
+ * 
+ *		and so forth. Otherwise object names are identical to those defined 
+ *		by the Standard.
  *
  *	**************************************************************************/
 
@@ -164,7 +190,7 @@ void std_advance(InputIt& it, Distance n)
 template<class ForwardIt>
 ForwardIt std_next(ForwardIt it, typename std_iterator_traits<ForwardIt>::difference_type n = 1) 
 {
-	advance(it, n);
+	std_advance(it, n);
 	return it;
 }
 
@@ -172,7 +198,7 @@ ForwardIt std_next(ForwardIt it, typename std_iterator_traits<ForwardIt>::differ
 template<class BidirIt>
 BidirIt std_prev(BidirIt it, typename std_iterator_traits<BidirIt>::difference_type n = 1)
 {
-	advance(it, -n);
+	std_advance(it, -n);
 	return it;
 }
 

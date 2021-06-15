@@ -1,5 +1,6 @@
 /*
- *	This file defines several STL-style functional algorithms.
+ *	This file defines several C++ Standard Template Library (STL) functional 
+ *	algorithms.
  *
  *	***************************************************************************
  *
@@ -24,6 +25,27 @@
  *
  *  You should have received a copy of the GNU General Public License
  *	along with this file. If not, see <http://www.gnu.org/licenses/>.
+ *
+ *  ***************************************************************************
+ *
+ *	Description:
+ *
+ *		This file defines some of the functions in the <functional> header of
+ *		a C++ Standard Template Library (STL) implementation. The functions 
+ *		behave according to the ISO C++11 Standard:	(ISO/IEC 14882:2011).
+ *
+ *		The Standard requires that STL objects reside in the `std' namespace.
+ *		However, because later implementations of the Arduino IDE lack
+ *		namespace support, this entire library resides in the global namespace
+ *		and, to avoid naming collisions, all standard function names are
+ *		preceded by `std_'. Thus, for example:
+ *
+ *			std::find = std_find,
+ *			std::begin = std_begin,
+ *			std::end = std_end,
+ *
+ *		and so forth. Otherwise function names are identical to those defined
+ *		by the Standard.
  *
  *	**************************************************************************/
 
