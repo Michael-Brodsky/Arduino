@@ -30,7 +30,7 @@
  *
  *  Description:
  *
- *  This file may include the following C++ header files:
+ *  This file may include the following header files:
  *
  *      Arduino.h or WProgram.h: Arduino API declarations, depending on the 
  *                               Arduino IDE implementation being used.
