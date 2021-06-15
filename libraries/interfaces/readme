@@ -2,4 +2,6 @@ This library consists of several files that declare abstract interface types use
 modern C++ design patterns.
 
 FILES:
-<ICommand.> - interface type for implementing the "Command" pattern.
+<ICommand.h> - interface types for implementing the "Command" pattern.
+<IComponent.h>, <IMediator.h> - interface types for implementing the "Mediator" pattern.
+<ICloneable.h> - interface type for implementing the "Virtual Constructor" idiom.
