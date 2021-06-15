@@ -50,7 +50,7 @@
  *		field is a particular position (col/row) on the display, and a screen
  *		is a collection of such fields. They are represented by the two nested 
  *		types: `Screen' and `Field'. The `Screen' type also encapsulates print 
- *		formatting and allow clients to print an entire formatted screen to 
+ *		formatting and allows clients to print an entire formatted screen to 
  *		the display hardware all at once. 
  *		
  *			// A collection of display fields with their col/row coordinates:
@@ -154,7 +154,6 @@ public:
 	{
 		uint8_t		col_;	// Column specifier.
 		uint8_t		row_;	// Row specifier.
-		//const char* fmt_;	// Optional print formatting specifier.
 
 		explicit Field(uint8_t col = 0, uint8_t	row = 0);
 
