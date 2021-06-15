@@ -1,5 +1,6 @@
 /*
- *  This file includes several user-defined library dependencies.
+ *  This file includes one of several library dependencies that expose the 
+ *  Arduino API to the client.
  *
  *	***************************************************************************
  *
