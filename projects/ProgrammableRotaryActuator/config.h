@@ -372,7 +372,7 @@ enum class EventGroup
 };
 
 #if !defined _DEBUG
-const uint8_t MaxEventRecords = 8;
+const uint8_t MaxEventRecords = 7;
 #else
 const uint8_t MaxEventRecords = 2;
 #endif

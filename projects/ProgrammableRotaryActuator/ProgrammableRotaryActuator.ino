@@ -162,6 +162,8 @@
  * 
  *	**************************************************************************/
 
+#include <numeric_limits.h>
+#include <numeric.h>
 #include "config.h"
 //#define NOEEPROM 1	// Rewrites corrupted/missing EEPROM data. Uncomment & upload
 						// when running sketch for first time, or if EEPROM becomes 
