@@ -30,7 +30,8 @@
 #if !defined SERVO_TRAITS_H__ 
 # define SERVO_TRAITS_H__ 20210531L
 
-# include <types.h> // `Arduino and `stdint' types.
+# include "types.h"				// `Arduino and `stdint' types.
+# include "numeric_limits.h"	// `numeric_limits' types.
 
 // Common servo signaling, and control data types and constants.
 struct servo_types 
@@ -39,8 +40,8 @@ struct servo_types
 	using anglediff_t = int16_t;					// Type that can hold the difference of any angles in degrees.
 	using step_t = usecs_t;							// Type that can hold any pulse width (step) in microseconds.
 	using stepdir_t = long;							// Type that can hold the difference of any pulse widths (direction) in microseconds.
-	static const angle_t InvalidAngle = UINT16_MAX;	// Constant indicating an invalid angle.
-	static const step_t InvalidStep = UINT32_MAX;	// Constant indicating an invalid pulse width (step).
+	static const angle_t InvalidAngle = std_numeric_limits<angle_t>::max();	// Constant indicating an invalid angle.
+	static const step_t InvalidStep = std_numeric_limits<servo_types::step_t>::max();	// Constant indicating an invalid pulse width (step).
 };
 
 // Default servo type traits and constants.
