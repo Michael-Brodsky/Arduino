@@ -5,3 +5,9 @@ FILES:
 <ICommand.h> - interface types for implementing the "Command" pattern.
 <IComponent.h>, <IMediator.h> - interface types for implementing the "Mediator" pattern.
 <ICloneable.h> - interface type for implementing the "Virtual Constructor" idiom.
+<IClockable.h> - custom interface type for creating asynchronous, event-driven objects.
+<Callback.h> - templeted typdefs for easily defining callback types.
+
+NOTES:
+There are a few other interface classes defined in files located elsewhere, ususally 
+because they have a specific purpose for in a particular library.
