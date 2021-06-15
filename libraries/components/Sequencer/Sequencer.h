@@ -59,7 +59,6 @@
 # include "IComponent.h"		// `IComponent' interface.
 # include "IClockable.h"		// `IClockable" and `ICommand' interfaces.
 # include "Timer.h"				// `Timer' class.
-# include "EEPROMStream.h"		// EEPROM support for `SerializableEvent' type.
 
 // Type that asynchronously executes a sequence of commands objects.
 class Sequencer : public IClockable, public IComponent 
