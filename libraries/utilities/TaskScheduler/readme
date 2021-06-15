@@ -1,0 +1,2 @@
+This library defines several types for running applications in a multi-tasking
+(scheduled) environmemt.
