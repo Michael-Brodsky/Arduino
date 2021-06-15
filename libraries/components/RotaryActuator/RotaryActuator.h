@@ -37,7 +37,7 @@
 class RotaryActuator : public IComponent, public IClockable
 {
 public:
-	using angle_t = IServo::angle_t;							// Type that stores angles values in degrees.
+	using angle_t = IServo::angle_t;							// Type that stores rotation angles in degrees.
 	static const angle_t InvalidAngle = IServo::InvalidAngle;	// Constant indicating an invalid angle.
 
 	// Enumerates valid RotaryActuator states.
