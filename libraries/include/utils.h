@@ -1,6 +1,5 @@
 /*
- *	This file defines several function-like macros for MSVC11 <--> Arduino IDE 
- *	1.8 portability and convenience.
+ *	This file defines several convenience functions and function-like macros.
  *
  *	***************************************************************************
  *
@@ -37,21 +36,27 @@
 # include "library.h"
 
 # if defined STRINGIZE
-#  define Stringize(a) STRINGIZE(a)	// Converts a to "a".
+#  if !defined Stringize
+#   define Stringize(a) STRINGIZE(a)	// Converts a to "a".
+#  endif
 # else
-#  define Stringize(a) ((void)0)	// Converts a to "a".
+#  define Stringize(a) ((void)0)		// Not defined.
 # endif
 
 # if defined CONCAT
-#  define Concat(a, b) CONCAT(a, b)	// Concatenates a and b to ab.
+#  if !defined Concat
+#   define Concat(a, b) CONCAT(a, b)	// Concatenates a and b to ab.
+#  endif
 # else
-#  define Concat(a, b) ((void)0)	// Concatenates a and b to ab.
+#  define Concat(a, b) ((void)0)		// Not defined.
 # endif
 
 # if defined CONCAT3
-#  define Concat3(a, b, c) CONCAT3(a, b, c)	// Concatenates a, b and c to abc.
+#  if !defined Concat3
+#   define Concat3(a, b, c) CONCAT3(a, b, c)	// Concatenates a, b and c to abc.
+#  endif
 # else
-#  define Concat3(a, b, c) ((void)0)		// Concatenates a, b and c to abc.
+#  define Concat3(a, b, c) ((void)0)			// Not defined.
 # endif
 
 # if !defined AssertMsg
@@ -59,11 +64,11 @@
 # endif
 
 # if !defined Print
-#  define Print(val) Serial.print(val)		// Prints `val' to the serial monitor.
+#  define Print(val) Serial.print(val)		// Prints `val' to the serial port.
 # endif // !defined Print
 
 # if !defined PrintLn
-#  define PrintLn(val) Serial.println(val)	// Prints `val' with a trailing `newline' to the serial monitor.
+#  define PrintLn(val) Serial.println(val)	// Prints `val' with a trailing `newline' to the serial port.
 # endif // !defined PrintLn
 
 # define NoTimer0Int TIMSK0 &= ~_BV(OCIE0A);					// Disable Timer0 cmp interrupt.
@@ -71,24 +76,24 @@
 
 void(*resetFunc)(void) = 0;	// Reboots the Arduino device.
 
-#ifdef __arm__
-// should use uinstd.h to define sbrk but Due causes a conflict
+# if defined __arm__
+// should use unistd.h to define sbrk but Due causes a conflict
 extern "C" char* sbrk(int incr);
-#else  // __ARM__
+# else  // __ARM__
 extern char* __brkval;
-#endif  // __arm__
+# endif  // __arm__
 
 // Returns the amount of free heap memory.
 int freeMemory() 
 {
 	char top;
-#ifdef __arm__
+# if defined __arm__
 	return &top - reinterpret_cast<char*>(sbrk(0));
-#elif defined(CORE_TEENSY) || (ARDUINO > 103 && ARDUINO != 151)
+# elif defined(CORE_TEENSY) || (ARDUINO > 103 && ARDUINO != 151)
 	return &top - __brkval;
-#else  // __arm__
+# else  // __arm__
 	return __brkval ? &top - __brkval : &top - __malloc_heap_start;
-#endif  // __arm__
+# endif  // __arm__
 }
 
 // `strcat()' for chars.
@@ -99,4 +104,5 @@ void charcat(char* buf, char c)
 	*ptr = c;
 	*(++ptr) = '\0';
 }
+
 #endif // !defined UTILS_H__
