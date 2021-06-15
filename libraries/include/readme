@@ -1,0 +1,9 @@
+This library contains several files that define type-appropriate and const-correct POD types, 
+utility functions and object-like macros for conditional compilation. They form the low-level 
+dependencies used by almost all of the other libraries in this repo.
+
+FILES:
+<library.h> - exposes the Arduino API, ususally included by `.cpp' files that need API access.
+<tokens.h> - common macros found in old `C' programs used to manipulate macro tokens.
+<types.h> - POD type definitions and conditional compilation macros.
+<utils.h> - low-level utility functions.
