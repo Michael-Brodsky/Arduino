@@ -145,15 +145,15 @@
   * Dependencies *
   ****************/
 
+#include <Display.h>				// `Display' type.
 #include <AnalogKeypad.h>			// `Keypad' type.
-#include <LiquidCrystalDisplay.h>		// `LiquidCrystal' display manager.
 #include <DigitalClock.h>			// `DigitalClock' type.
 #include <TaskScheduler.h>			// `TaskScheduler' and `ClockCommand' types.
-#include "config.h"				// Hardware and application configuration constants.
+#include "config.h"					// Hardware and application configuration constants.
 
 //#define NOEEPROM 1				// Uncomment to skip deserialization when EEPROM data corrupted.
-						// Upload, run sketch and update alarm setting to overwrite EEPROM. 
-						// Then comment out #define, recompile, upload and run normally.
+									// Upload, run sketch and update alarm setting to overwrite EEPROM. 
+									// Then comment out #define, recompile, upload and run normally.
 /*************************
  * Function Declarations *
  *************************/
@@ -211,7 +211,7 @@ LiquidCrystal lcd(LcdRs, LcdEnable, LcdD4, LcdD5, LcdD6, LcdD7);
 // Keypad object.
 Keypad keypad(KeypadInputPin, (Keypad::Callback(&keypadCallback)), Keypad::LongPress::Hold, KeypadLongPressInterval, buttons);
 // Display object.
-LiquidCrystalDisplay display(lcd, &displayCallback, &date_time_screen);
+Display display(lcd, &displayCallback, &date_time_screen);
 // EEPROM stream object.
 EEPROMStream eeprom;
 // Digital clock object.
