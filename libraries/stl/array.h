@@ -56,7 +56,7 @@
  *		adaptors, `ReverseIterator' and `ConstReverseIterator', are also 
  *		defined, but are not nested types within `std_array'. The rationale is 
  *		since the vast majority of microcontroller applications do not use 
- *		dynamic memory allocation, any sequence container types that as well 
+ *		dynamic memory allocation, any sequence container types as well 
  *		as their iterators can be implemented in terms of `std_array' and 
  *		adapted as necessary.
  * 
