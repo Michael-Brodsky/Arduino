@@ -2,8 +2,8 @@
 
 #pragma region Display Impl
 
-Display::Display(Callback callback, const Screen* screen) :
-	screen_(screen), field_(screen->begin()), cursor_(),
+Display::Display(LiquidCrystal& lcd, Callback callback, const Screen* screen) :
+	lcd_(lcd), screen_(screen), field_(screen->begin()), cursor_(),
 	callback_(callback), event_(), blink_timer_(), display_(true)
 {
 
@@ -90,15 +90,33 @@ void Display::refresh()
 		blink_timer_.reset();
 	}
 	if (event_ == Update::Display)
-		display_enable(display_);
-	if (event_ == Update::Clear)
-		display_clear();
+		display_ ? lcd_.display() : lcd_.noDisplay();
+	if (event_ == Update::Clear) 
+		lcd_.clear();
 	if (event_ == Update::Cursor)
-		display_cursor(cursor_);
-	if(event_ == Update::Print && callback_)
+	{
+		switch (cursor_)
+		{
+		case Display::Cursor::Normal:
+			lcd_.noCursor();
+			lcd_.noBlink();
+			break;
+		case Display::Cursor::Block:
+			lcd_.noCursor();
+			lcd_.blink();
+			break;
+		case Display::Cursor::Edit:
+			lcd_.cursor();
+			lcd_.noBlink();
+			break;
+		default:
+			break;
+		}
+	}
+	if (event_ == Update::Print && callback_)
 		(*callback_)();
 	if (event_ == Update::Field)
-		display_field(field_);
+		lcd_.setCursor(field_->col_, field_->row_);
 	event_ = Update::None;	// Reset the Event flags.
 
 }
@@ -150,7 +168,7 @@ bool Display::Field::operator<(const Field& other) const
 
 #pragma region Screen Impl
 Display::Screen::Screen(const char* label, const Field fields[], size_t sz_fields, const char* rows[], size_t sz_rows) :
-	fields_(fields, sz_fields), rows_(rows, sz_rows), label_(label) 
+	fields_(fields, sz_fields), rows_(rows, sz_rows), label_(label)
 {
 
 }
@@ -160,19 +178,19 @@ Display::Screen::Screen(const char* label, const Field* first, const Field* last
 {
 
 }
-Display::Screen::const_iterator Display::Screen::begin() const 
-{ 
-	return fields_.begin(); 
+Display::Screen::const_iterator Display::Screen::begin() const
+{
+	return fields_.begin();
 }
 
-Display::Screen::const_iterator Display::Screen::end() const 
-{ 
-	return fields_.end(); 
+Display::Screen::const_iterator Display::Screen::end() const
+{
+	return fields_.end();
 }
 
-Display::Screen::size_type Display::Screen::size() const 
-{ 
-	return fields_.size(); 
+Display::Screen::size_type Display::Screen::size() const
+{
+	return fields_.size();
 }
 
 const char* Display::Screen::label() const
@@ -223,4 +241,5 @@ const char Spinner::getNext()
 	return *it_;
 }
 #pragma endregion
+
 
