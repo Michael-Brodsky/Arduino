@@ -34,7 +34,7 @@
 #include <utils.h>					// `resetFunc', `Print', `PrintLn', `charcat' functions.
 #include <TimeLib.h>				// Arduino time lib.
 #include <AnalogKeypad.h>			// `Keypad' type.
-#include <LiquidCrystalDisplay.h>	// `LiquidCrystalDisplay' type. 
+#include <Display.h>				// `Display' type. 
 #include <TaskScheduler.h>			// `TaskScheduler' type.
 #include <RotaryActuator.h>			// `RotaryActuator' and `SweepServo' types
 #include <Sequencer.h>				// `Sequencer' type.
@@ -372,7 +372,7 @@ enum class EventGroup
 };
 
 #if !defined _DEBUG
-const uint8_t MaxEventRecords = 7;
+const uint8_t MaxEventRecords = 8;
 #else
 const uint8_t MaxEventRecords = 2;
 #endif
@@ -470,10 +470,3 @@ using sequence_type = Sequencer::container_type;
 using actuator_command_type = ActuatorCommand;
 
 #endif // !defined CONFIG_H__ 
-
-/*
-sto "AAAAAAA",1000,0;"BBBBBBB",2000,10;
-"CCCCCCC",3000,20;"DDDDDDD",4000,30;
-"EEEEEEE",5000,40;"FFFFFFF",6000,50;
-"GGGGGGG",7000,60;"HHHHHHH",8000,70;\
-*/
