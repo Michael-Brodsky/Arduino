@@ -81,7 +81,7 @@
  *	successive steps. Increasing the step size or decreasing the interval 
  *	will cause the servo to rotate from one position to another faster. 
  *	However, most servos are limited in their rotation speeds and optimal 
- *  values may have to be found experimentally or from the servo harware 
+ *  	values may have to be found experimentally or from the servo harware 
  *	specifications. The "Wrap" parameter sets whether the current sequence 
  *	wraps around and repeats continuously or stops after the last event. "Y" 
  *	indicates wrap-around and "N" indicates no wrap-around.
@@ -141,18 +141,18 @@
  *	Sample display in Auto/Man modes:
  * 
  *	********************
- *  * Auto:01   Closed *
- *  *      0° 00:00:10 *
+ *  	* Auto:01   Closed *
+ *  	*      0Â° 00:00:10 *
  *	********************
  * 
  *	  Mode:nn    "Name"
- *	      ddd° hh:mm:ss
+ *	      dddÂ° hh:mm:ss
  * 
  *	Mode:    current operating mode
  *	nn:      event number (1, 2, 3, ...)
  *	Name:    event human-readable name, upto 7 chars max.
- *  ddd:     angle (actuator position) in degrees of rotation.
- *  hh:mm:ss event duration in hours, minutes and seconds.
+ *  	ddd:     angle (actuator position) in degrees of rotation.
+ *  	hh:mm:ss event duration in hours, minutes and seconds.
  * 
  *	In editting modes, the cursor changes to a flashing block and 
  *	highlights the current field on the display.
@@ -162,12 +162,11 @@
  * 
  *	**************************************************************************/
 
-//#include <Display.h>
 #include "config.h"
 //#define NOEEPROM 1	// Rewrites corrupted/missing EEPROM data. Uncomment & upload
-						// when running sketch for first time, or if EEPROM becomes 
-						// corrupted and causes errors/crashes. Then comment out and 
-						// reupload for normal operation.
+			// when running sketch for first time, or if EEPROM becomes 
+			// corrupted and causes errors/crashes. Then comment out and 
+			// reupload for normal operation.
 
 /*
  * Function decls.
@@ -277,18 +276,6 @@ const SerialRemote::Command serial_cmds[] =
 	SerialRemote::Command(CommandTag::List, SerialListString, &list_cmd),		// List current sequence.
 	SerialRemote::Command(CommandTag::Store, SerialStoreString, &store_cmd)		// Store new sequence & reboot.
 };
-/* Future expansion: 
-	lda: load events from eeprom, 
-	sts: return sequencer status, 
-	evt: get/set current event index,
-	exe: exec current event,
-	mod: get/set operating mode,  
-	ini: reboot, 
-	ste: set servo step size, 
-	inv: set servo interval size,
-	ack: get/set acknowledge mode, 
-	bcs: get/set broadcast mode.
-*/
 
 /* Hardware objects */
 
