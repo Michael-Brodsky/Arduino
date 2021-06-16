@@ -30,15 +30,15 @@
 #if !defined CONFIG_H__ 
 # define CONFIG_H__ 20210530L
 
-#include <utility.h>				// `std_pair' type.
-#include <utils.h>					// `resetFunc', `Print', `PrintLn', `charcat' functions.
-#include <TimeLib.h>				// Arduino time lib.
-#include <AnalogKeypad.h>			// `Keypad' type.
-#include <Display.h>				// `Display' type. 
-#include <TaskScheduler.h>			// `TaskScheduler' type.
-#include <RotaryActuator.h>			// `RotaryActuator' and `SweepServo' types
-#include <Sequencer.h>				// `Sequencer' type.
-#include <SerialRemote.h>			// `SerialRemote' type.
+# include <utility.h>				// `std_pair' type.
+# include <utils.h>					// `resetFunc', `Print', `PrintLn', `charcat' functions.
+# include <TimeLib.h>				// Arduino time lib.
+# include <AnalogKeypad.h>			// `Keypad' type.
+# include <Display.h>				// `Display' type. 
+# include <TaskScheduler.h>			// `TaskScheduler' type.
+# include <RotaryActuator.h>			// `RotaryActuator' and `SweepServo' types
+# include <Sequencer.h>				// `Sequencer' type.
+# include <SerialRemote.h>			// `SerialRemote' type.
 
  /*
   * LCD display hardware constants
