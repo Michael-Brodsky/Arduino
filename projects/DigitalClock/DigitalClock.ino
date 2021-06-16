@@ -145,29 +145,15 @@
   * Dependencies *
   ****************/
 
-//#include <EEPROMStream.h>
-//#include <ISerializeable.h>
-//#include <iterator.h>
-//#include <TimeLib.h>
-//#include <Time.h>
-//#include <IClockable.h>
-//#include <EEPROMStream.h>
-//#include <Display.h>
-//#include <IDisplay.h>
-//#include <utils.h>
-//#include <types.h>
-//#include <tokens.h>
-//#include <library.h>
-#include <LiquidCrystal.h>			// Arduino lcd API.
 #include <AnalogKeypad.h>			// `Keypad' type.
-#include <LiquidCrystalDisplay.h>	// `LiquidCrystal' display manager.
+#include <LiquidCrystalDisplay.h>		// `LiquidCrystal' display manager.
 #include <DigitalClock.h>			// `DigitalClock' type.
 #include <TaskScheduler.h>			// `TaskScheduler' and `ClockCommand' types.
-#include "config.h"					// Hardware and application configuration constants.
+#include "config.h"				// Hardware and application configuration constants.
 
 //#define NOEEPROM 1				// Uncomment to skip deserialization when EEPROM data corrupted.
-									// Upload, run sketch and update alarm setting to overwrite EEPROM. 
-									// Then comment out #define, recompile, upload and run normally.
+						// Upload, run sketch and update alarm setting to overwrite EEPROM. 
+						// Then comment out #define, recompile, upload and run normally.
 /*************************
  * Function Declarations *
  *************************/
