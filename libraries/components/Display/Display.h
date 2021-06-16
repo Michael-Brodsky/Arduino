@@ -176,7 +176,7 @@ private:
 	void	clock() override;
 
 private:
-	LiquidCrystal&	lcd_;
+	LiquidCrystal&	lcd_;           // Arduino `LiquidCrystal' API.
 	const Screen*	screen_;		// The current `Screen' object.
 	const Field*	field_;			// The current `Field' object.
 	Cursor			cursor_;		// The current display cursor setting.
