@@ -5,7 +5,7 @@
  *	***************************************************************************
  *
  *	File: IComponent.h
- *	Date: April 9, 2021
+ *	Date: July 17, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -29,7 +29,7 @@
  *	**************************************************************************/
 
 #if !defined ICOMPONENT_H__ 
-#define ICOMPONENT_H__ 20210408L
+#define ICOMPONENT_H__ 20210717L
 
 #include "IMediator.h"
 
