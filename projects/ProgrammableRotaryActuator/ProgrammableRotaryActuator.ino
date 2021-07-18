@@ -33,60 +33,91 @@
  *	implemented on an Arduino Uno and compatible LCD/Keypad Shield. The device 
  *	controls a servo motor and positions it according to a user-defined, 
  *	chronological sequence. It can be used to automatically control rotary 
- *	valves and other mechanisms in a predefined manner, similarly to the way a 
- *	sprinkler system works. The device is programmable and configurable via the 
- *	user interface provided by the LCD/Keypad Shield or flash programmable via 
- *	the on-board serial port. Settings are storable and retrievable from the 
- *	on-board EEPROM.
+ *	valves and other mechanisms in a predefined manner, similarly to the way 
+ *	sprinkler system valves work. The device can be programmed and operated via 
+ *	the LCD/Keypad Shield or flash programmed via the on-board serial port. All 
+ *	settings are stored in the on-board EEPROM memory.
  * 
  *	Actuator positions are stored as a sequence of "events". Each event has 
  *	three parameters: a human-readable "name", a "duration", displayed as 
  *	hh::mm::ss, and a rotation "angle" in degrees. Events are numbered 
- *	sequentially: 1, 2, 3 ....
+ *	sequentially: 1, 2, 3 ... and displayed on the LCD in the following 
+ *	format:
+ * 
+ *	********************
+ *  * Auto:01   Closed *
+ *  *      0° 00:00:10 *
+ *	********************
+ * 
+ *	  Mode:nn   "Name"
+ *	     ddd° hh:mm:ss
+ * 
+ *	Mode:    current operating mode
+ *	nn:      event number (1, 2, 3, ...)
+ *	Name:    event human-readable name, upto 7 chars max.
+ *  ddd:     angle (actuator position) in degrees of rotation.
+ *  hh:mm:ss event duration in hours, minutes and seconds.
  * 
  *	The device has five operating "modes": Auto, Man, Pgm, Cfg and Comm. 
  *	Modes can be selected from a menu of choices by long-pressing the 
  *	<Select> key in Auto mode, which is the default mode. Scroll the cursor 
  *	with the <Left/Right> keys until the desired mode is highlighted and 
  *  press and release the <Select> key to select that mode. The device 
- *	returns to "Auto" mode from any other mode by pressing and releasing the 
- *	<Select> key.
+ *	returns to "Auto" mode from any other mode using the <Select> key.
  *
  *	"Auto" mode runs thru the current sequence of events, displaying its name, 
- *	rotation angle and time remaining. The sequence can be started, stopped and 
- *	resumed with the <Select> key on the keypad. The <Right> key resets the 
- *	sequence to the beginning (the first event). 
+ *	rotation angle and time remaining. The sequence can be started, stopped 
+ *	and resumed with the <Select> key. The <Up/Down> keys manually advance 
+ *	thru the sequence when the device is idle. The <Right> key resets 
+ *	the sequence to the beginning (the first event). A nifty "spinner" thingy 
+ *	appears at the bottom left of the display to indicate when the device is 
+ *	active.
  * 
  *	"Man" mode is used to manually scroll thru and execute any event in the 
  *	current sequence. Use the <Up/Down> keys to scroll thru the sequence and 
- *  press the <Left> key to execute that event (position the actuator). 
+ *  press the <Left> key to execute that event (position the actuator). The 
+ *	<Right> key resets the sequence to the beginning (the first event).
+ * 
+ *	The remaining modes are used for editting parameters. In these modes the 
+ *	cursor changes to a flashing block and highlights the currently selected 
+ *	field on the display.
  * 
  *	"Pgm" mode is used to change event angle and duration parameters (events 
  *	can only be added, removed and renamed by flash programming via the 
- *	serial port). Use the <Up/Down> keys to scroll to the desired event when 
- *	the event number field is highlighted. Use the <Left/Right> keys to scroll 
- *	to the desired field. Then use the <Up/Down> keys to change the value. 
- *	Holding down the <Up/Down> keys for a second or longer will cause the 
- *	values to change rapidly. When done editting, Hold down the <Select> key 
- *	for one second until the device switches back to "Auto: mode. This saves 
- *	any changes. To discard changes (undo), quickly press and release the 
- *	<Select> key.
+ *	serial port). The diplay format is identical to "Auto" and "Man" modes. 
+ *	Use the <Up/Down> keys to scroll to the desired event when the event 
+ *	number field is highlighted. Use the <Left/Right> keys to scroll to the 
+ *	desired field. Then use the <Up/Down> keys to change the value. Holding 
+ *	down the <Up/Down> keys for a second or longer will cause the values to 
+ *	change rapidly. When done editting, Hold down the <Select> key for one 
+ *	second until the device switches back to "Auto: mode. This saves any 
+ *	changes. To discard changes (undo), quickly press and release the <Select> 
+ *	key.
  *	
  *	"Cfg" mode configures servo rotation parameters. This allows adjustment to 
  *	the rotation speed and accomodates different servo hardware with varying 
  *	rotation capabilities. Navigation/editting is done the same way as in 
- *	"Pgm" mode. The "Step" parameter determines how far the servo rotates on 
- *	each clocking cycle (it is operated in a manner similar to a stepper 
- *	motor). The "Intvl" parameter determines the amount of time between 
- *	successive steps. Increasing the step size or decreasing the interval 
- *	will cause the servo to rotate from one position to another faster. 
- *	However, most servos are limited in their rotation speeds and optimal 
- *  values may have to be found experimentally or from the servo harware 
- *	specifications. The "Wrap" parameter sets whether the current sequence 
- *	wraps around and repeats continuously or stops after the last event. "Y" 
- *	indicates wrap-around and "N" indicates no wrap-around.
+ *	"Pgm" mode. 
  * 
- *	"Comm" mode sets the serial port communications protocols. The first 
+ *	********************
+ *	* Ini:  0° Stp: 96 *
+ *	* Wrap:Y  Intv: 24 *
+ *	********************
+ * 
+ *	The "Ini" fields sets the initial rotation angle when the device is first 
+ *	powered on or after a reset. The "Stp" parameter determines how far the 
+ *	servo rotates on each clocking cycle (it is operated in a manner similar 
+ *	to a stepper motor). The "Intv" parameter determines the amount of time 
+ *	between successive steps. Increasing the step size or decreasing the 
+ *	interval will cause the servo to rotate from one position to another 
+ *  faster. However, most servos are limited in their rotation speeds and 
+ *	optimal values may have to be found experimentally or from the 
+ *	manufacturer's harware specifications. The "Wrap" parameter sets whether 
+ *	the current sequence wraps around and repeats continuously or stops after 
+ *	the last event. "Y" indicates wrap-around and "N" indicates no wrap-around.
+ * 
+ * 
+ *	"Comm" mode sets the serial_remote port communications protocols. The first 
  *	parameter sets the baud rate and the second sets the number of start/stop 
  *	bits and parity. Keypad navigation/editting is done the same as the "Pgm" 
  *	and "Cfg" modes.
@@ -106,13 +137,13 @@
  *		stp - stops the current sequence, 
  *		res - resumes the current sequence at the current event.
  *		rst - resets the current sequence to the beginning (first event).
- *		lda - loads (retrieves) the current sequence of events from the device.
+ *		lst - lists the current sequence of events from the device.
  *		sto - stores a new sequence of events and reboots the device.
  * 
  *	All command strings must end with the "terminator" character, which is a 
  *	newline '\n' (ASCII code 10 in decimal). 
  * 
- *	The lda and sto commands send/receive event parameters in the following 
+ *	The lst and sto commands send/receive event parameters in the following 
  *	format:
  * 
  *		"name",duration,angle;
@@ -120,45 +151,26 @@
  *	The name field is enclosed in double quotes ("), and the duration and angle 
  *	fields are valid numeric values in milliseconds and degrees respectively. 
  *	Events are separated by a record-separator character, which is a semi-
- *	colon ';'. The "lda" command transmits a list of current events back to the 
+ *	colon ';'. The "lst" command transmits a list of current events back to the 
  *	sender using this format and the "sto" command takes a list of events as 
  *	parameters in the same format. Thus, to send a new sequence of events to the 
  *	device, the sender would transmit:
  * 
- *		sto "Closed",10000,0;"Open",2000,90;\
+ *		sto "Closed",10000,0;"Open",2000,90;\n
  * 
  *	This would create a sequence of two events, the first named "Closed" with a 
  *	duration of 10000 ms (10 secs) and a rotation angle of 0 degrees, and the 
  *	second, named "Open" with a duration of 2000 ms and angle of 90 degrees. A 
- *	subsequent "lda" command would return:
+ *	subsequent "lst" command would return:
  * 
- *		"Closed",10000,0;"Open",2000,90;\
+ *		"Closed",10000,0;"Open",2000,90;\n
  * 
  *	Due to the memory limitations of the Arduino Uno, the device can only store 
- *	eight (8) events at a time. For more storage, use a Leonardo or Mega and call 
- *	me for a software update :)
+ *	eight (8) events at a time. For more storage, use a Leonardo or Mega and 
+ *	call me for a software update :)
  * 
- *	Sample display in Auto/Man modes:
- * 
- *	********************
- *  * Auto:01   Closed *
- *  *      0° 00:00:10 *
- *	********************
- * 
- *	  Mode:nn    "Name"
- *	      ddd° hh:mm:ss
- * 
- *	Mode:    current operating mode
- *	nn:      event number (1, 2, 3, ...)
- *	Name:    event human-readable name, upto 7 chars max.
- *  ddd:     angle (actuator position) in degrees of rotation.
- *  hh:mm:ss event duration in hours, minutes and seconds.
- * 
- *	In editting modes, the cursor changes to a flashing block and 
- *	highlights the current field on the display.
- * 
- *	A nifty "spinner" thingy appears at the bottom left of the display to 
- *	indicate when the sequencer is active.
+ *	A short demonstration video can be viewed here: 
+ *	https://www.instagram.com/p/CQFh_5AHQNW/ 
  * 
  *	**************************************************************************/
 
@@ -209,10 +221,10 @@ void loadConfig(config_t&);
 void storeConfig(EEPROMStream::address_type, config_t&);
 void copyConfig(config_t&);
 void restoreConfig(const config_t&);
-void loadComms(SerialComms&);
-void storeComms(EEPROMStream::address_type, SerialComms&);
-void copyComms(SerialComms&);
-void restoreComms(SerialComms&);
+void loadComms(SerialProtocols&);
+void storeComms(EEPROMStream::address_type, SerialProtocols&);
+void copyComms(SerialProtocols&);
+void restoreComms(SerialProtocols&);
 
 /*
  * Global application objects.
@@ -261,7 +273,7 @@ const Display::Screen menu_screen(MenuLabel, menu_fields, MenuPrintFmt);
 const Display::Screen comm_screen(CommLabel, comm_fields, CommPrintFmt);
 const Display::Screen auto_screen(AutoLabel, nullptr, nullptr, std_begin(EventPrintFmt), std_end(EventPrintFmt));
 
-/* SerialRemote command objects, allow for remote control via serial port. */
+/* SerialRemote command objects, allow for remote control via serial_remote port. */
 
 Command<void, void, CommandTag> start_cmd(&serialCallback, CommandTag::Start);
 Command<void, void, CommandTag> stop_cmd(&serialCallback, CommandTag::Stop);
@@ -287,9 +299,8 @@ Keypad keypad(KeypadInputPin, &keypadCallback, Keypad::LongPress::Hold, KeypadLo
 LiquidCrystal lcd(LcdRs, LcdEnable, LcdD4, LcdD5, LcdD6, LcdD7);
 Display display(lcd, &displayCallback);
 Spinner spinner(SpinnerChars, SpinnerDivisor); // Way cool spinner thingy to indicate when sequencer is active.
-//SerialComms serial_comms(SupportedBaudRates, SupportedSerialProtocols);
-SerialComms serial_comms;
-SerialRemote serial(serial_buf, serial_cmds);
+SerialProtocols serial_protocols;
+SerialRemote serial_remote(serial_buf, serial_cmds);
 SweepServo<servo_hardware> servo;
 angle_t servo_init_angle = ServoMinAngle;
 config_t config(ServoDfltStepSize, ServoDfltStepInterval, servo_init_angle, false);
@@ -303,7 +314,7 @@ ClockCommand keypad_clock(keypad);
 ClockCommand display_clock(display);
 ClockCommand sequencer_clock(sequencer);
 ClockCommand actuator_clock(actuator);
-ClockCommand serial_clock(serial);
+ClockCommand serial_clock(serial_remote);
 TaskScheduler::Task keypad_task(&keypad_clock, KeypadPollingInterval, TaskScheduler::Task::State::Active);
 TaskScheduler::Task display_task(&display_clock, DisplayRefreshInterval, TaskScheduler::Task::State::Active);
 TaskScheduler::Task sequencer_task(&sequencer_clock, SequencerClockingInterval, TaskScheduler::Task::State::Idle);
@@ -346,14 +357,14 @@ void setup()
 	storeSequence(sequencer.events());
 	restoreConfig(config);
 	storeConfig(config_address = eeprom.address(), config);
-	storeComms(comms_address = eeprom.address(), serial_comms);
+	storeComms(comms_address = eeprom.address(), serial_protocols);
 #else
 	// Load the sequencer events, config and comms settings from the EEPROM.
 	loadSequence(sequencer.events());
 	config_address = eeprom.address();
 	loadConfig(config);
 	comms_address = eeprom.address();
-	loadComms(serial_comms);
+	loadComms(serial_protocols);
 #endif
 	// Create a copy of the sequencer events for editing/restore. 
 	createSequence(tmp_events, sequencer.events().size());
@@ -400,7 +411,7 @@ void lcdInitialize()
 	lcd.begin(LcdCols, LcdRows);
 }
 
-void serialInitialize(const SerialComms& comms)
+void serialInitialize(const SerialProtocols& comms)
 {
 	Serial.begin(comms.baud(), comms.protocol().second);
 	Serial.flush();
@@ -541,7 +552,7 @@ void keypadReleaseEvent(const Keypad::Button& button)
 			setMode(Mode::Auto);
 			break;
 		case Mode::Comms:
-			restoreComms(serial_comms);
+			restoreComms(serial_protocols);
 			setMode(Mode::Auto);
 			break;
 		case Mode::Menu:
@@ -588,7 +599,7 @@ void keypadLongpressEvent(const Keypad::Button& button)
 			setMode(Mode::Auto);
 			break;
 		case Mode::Comms:
-			storeComms(comms_address, serial_comms);
+			storeComms(comms_address, serial_protocols);
 			setMode(Mode::Auto);
 			break;
 		case Mode::Menu:
@@ -666,7 +677,7 @@ void actuatorCallback(RotaryActuator::State state)
 
 void serialCallback(CommandTag tag)
 {
-	// Handle any valid serial commands received.
+	// Handle any valid serial_remote commands received.
 	switch (tag)
 	{
 	case CommandTag::Start:
@@ -688,7 +699,7 @@ void serialCallback(CommandTag tag)
 		listEvents(sequencer.events());
 		break;
 	case CommandTag::Store:
-		storeEvents(serial.buf());
+		storeEvents(serial_remote.buf());
 		break;
 	default:
 		break;
@@ -737,7 +748,7 @@ void displayCallback()
 		lcd.print(screen(buf, row, PgmLabel, LabelConfigScreen, CommLabel));
 		break;
 	case Mode::Comms:
-		lcd.print(screen(buf, row, label, serial_comms.baud(), serial_comms.protocol().first)); // Comms screen only prints top row.
+		lcd.print(screen(buf, row, label, serial_protocols.baud(), serial_protocols.protocol().first)); // Comms screen only prints top row.
 	default:
 		break;
 	}
@@ -833,7 +844,7 @@ void setMode(Mode m)
 		display.cursor(Display::Cursor::Block);
 		break;
 	case Mode::Comms:
-		copyComms(serial_comms);
+		copyComms(serial_protocols);
 		display.screen(&comm_screen);
 		display.cursor(Display::Cursor::Block);
 		break;
@@ -994,17 +1005,17 @@ void adjustInitAngle(int8_t adjustment)
 
 void adjustComms(const Display::Field& field, int8_t adjustment)
 {
-	SerialComms::Select selection = field == proto_field
-		? SerialComms::Select::Protocol
-		: SerialComms::Select::Baud;
+	SerialProtocols::Select selection = field == proto_field
+		? SerialProtocols::Select::Protocol
+		: SerialProtocols::Select::Baud;
 
 	if (display.cursor() != Display::Cursor::Edit)
 		display.cursor(Display::Cursor::Edit);
-	serial_comms.select(selection);
+	serial_protocols.select(selection);
 	if (adjustment == Increment)
-		serial_comms.next();
+		serial_protocols.next();
 	else
-		serial_comms.prev();
+		serial_protocols.prev();
 	display.print();
 }
 
@@ -1012,21 +1023,21 @@ void listEvents(const sequence_type& sequence)
 {
 	char d[9]; // itoa/ltoa conversion buffer.
 
-	serial.buf()[0] = '\0';
+	serial_remote.buf()[0] = '\0';
 	// Assemble a string of event parameters and send it to the serial buffer for transmission.
 	for (auto& it : sequence)
 	{
-		charcat(serial.buf(), StringDelimiterChar);
-		strcat(serial.buf(), it->name_);
-		charcat(serial.buf(), StringDelimiterChar);
-		charcat(serial.buf(), GroupSeparatorChar);
-		strcat(serial.buf(), ltoa(it->duration_, d, DecimalRadix));
-		charcat(serial.buf(), GroupSeparatorChar);
-		strcat(serial.buf(), itoa(static_cast<actuator_command_type*>(it->command_)->angle(), d, DecimalRadix));
-		charcat(serial.buf(), RecordSeparatorChar);
+		charcat(serial_remote.buf(), StringDelimiterChar);
+		strcat(serial_remote.buf(), it->name_);
+		charcat(serial_remote.buf(), StringDelimiterChar);
+		charcat(serial_remote.buf(), GroupSeparatorChar);
+		strcat(serial_remote.buf(), ltoa(it->duration_, d, DecimalRadix));
+		charcat(serial_remote.buf(), GroupSeparatorChar);
+		strcat(serial_remote.buf(), itoa(static_cast<actuator_command_type*>(it->command_)->angle(), d, DecimalRadix));
+		charcat(serial_remote.buf(), RecordSeparatorChar);
 	}
-	charcat(serial.buf(), SerialRemote::EndOfTextChar);
-	Serial.print(serial.buf());
+	charcat(serial_remote.buf(), SerialRemote::EndOfTextChar);
+	Serial.print(serial_remote.buf());
 }
 
 void storeEvents(const char* buf)
@@ -1034,8 +1045,8 @@ void storeEvents(const char* buf)
 	char* start = (char*)buf + strlen(SerialStoreString), * from = start, * to = nullptr;
 	uint8_t n = 0;
 
-	// Parse a string of event parameters received in the serial buffer 
-	// and create a collection of sequencer events.
+	// Parse characters in the serial buffer and create a collection of sequencer events
+	// equal to the number of event strings received.
 	while ((to = strchr(from, RecordSeparatorChar)))
 	{
 		if (++n == MaxEventRecords)
@@ -1060,7 +1071,7 @@ void storeEvents(const char* buf)
 	// Reboot the device.
 	resetFunc();
 }
-//
+
 void initEvent(event_type& e, char* first, char* last)
 {
 	EventGroup grp = EventGroup::Name;
@@ -1190,13 +1201,13 @@ void restoreConfig(config_t& copy)
 	sequencer.wrap(copy.wrap_);
 }
 
-void loadComms(SerialComms& comms)
+void loadComms(SerialProtocols& comms)
 {
 	comms.deserialize(eeprom);
 	serialInitialize(comms);
 }
 
-void storeComms(EEPROMStream::address_type addr, SerialComms& comms)
+void storeComms(EEPROMStream::address_type addr, SerialProtocols& comms)
 {
 	eeprom.address() = addr;
 	comms.serialize(eeprom);
@@ -1205,12 +1216,12 @@ void storeComms(EEPROMStream::address_type addr, SerialComms& comms)
 	serialInitialize(comms);
 }
 
-void copyComms(SerialComms& comms)
+void copyComms(SerialProtocols& comms)
 {
 	comms.copy();
 }
 
-void restoreComms(SerialComms& comms)
+void restoreComms(SerialProtocols& comms)
 {
 	comms.restore();
 }
