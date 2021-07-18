@@ -5,7 +5,7 @@
  *	***************************************************************************
  *
  *	File: DigitalClock.h
- *	Date: April 9, 2021
+ *	Date: July 18, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -57,10 +57,10 @@
  *	**************************************************************************/
 
 #if !defined DIGITALCLOCK_H__
-# define DIGITALCLOCK_H__ 20210409L
+# define DIGITALCLOCK_H__ 20210718L
 
-#include <TimeLib.h>		// Arduino time lib.
-#include <EEPROMStream.h>	// Eeprom support.
+#include "TimeLib.h"		// Arduino time lib.
+#include "EEPROMStream.h"	// Eeprom support.
 #include "array.h"			// `std_array' type.
 #include "IClockable.h"		// `IClockable' interface (for client alarm checking).
 #include "IComponent.h"		// `IComponent' interface.
