@@ -12,17 +12,17 @@
  *
  *	***************************************************************************
  *
- *  This file is part of "Pretty Good" (Pg). "Pg" is free software:
+ *  	This file is part of "Pretty Good" (Pg). "Pg" is free software:
  *	you can redistribute it and/or modify it under the terms of the
  *	GNU General Public License as published by the Free Software Foundation,
  *	either version 3 of the License, or (at your option) any later version.
  *
- *  This file is distributed in the hope that it will be useful, but
+ *  	This file is distributed in the hope that it will be useful, but
  *	WITHOUT ANY WARRANTY; without even the implied warranty of
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *	GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
+ *  	You should have received a copy of the GNU General Public License
  *	along with this file. If not, see <http://www.gnu.org/licenses/>.
  *
  *	**************************************************************************
@@ -45,24 +45,24 @@
  *	format:
  * 
  *	********************
- *  * Auto:01   Closed *
- *  *      0° 00:00:10 *
+ *  	* Auto:01   Closed *
+ *  	*      0Â° 00:00:10 *
  *	********************
  * 
  *	  Mode:nn   "Name"
- *	     ddd° hh:mm:ss
+ *	     dddÂ° hh:mm:ss
  * 
  *	Mode:    current operating mode
  *	nn:      event number (1, 2, 3, ...)
  *	Name:    event human-readable name, upto 7 chars max.
- *  ddd:     angle (actuator position) in degrees of rotation.
- *  hh:mm:ss event duration in hours, minutes and seconds.
+ *  	ddd:     angle (actuator position) in degrees of rotation.
+ *  	hh:mm:ss event duration in hours, minutes and seconds.
  * 
  *	The device has five operating "modes": Auto, Man, Pgm, Cfg and Comm. 
  *	Modes can be selected from a menu of choices by long-pressing the 
  *	<Select> key in Auto mode, which is the default mode. Scroll the cursor 
  *	with the <Left/Right> keys until the desired mode is highlighted and 
- *  press and release the <Select> key to select that mode. The device 
+ *  	press and release the <Select> key to select that mode. The device 
  *	returns to "Auto" mode from any other mode using the <Select> key.
  *
  *	"Auto" mode runs thru the current sequence of events, displaying its name, 
@@ -75,7 +75,7 @@
  * 
  *	"Man" mode is used to manually scroll thru and execute any event in the 
  *	current sequence. Use the <Up/Down> keys to scroll thru the sequence and 
- *  press the <Left> key to execute that event (position the actuator). The 
+ *  	press the <Left> key to execute that event (position the actuator). The 
  *	<Right> key resets the sequence to the beginning (the first event).
  * 
  *	The remaining modes are used for editting parameters. In these modes the 
@@ -90,7 +90,7 @@
  *	desired field. Then use the <Up/Down> keys to change the value. Holding 
  *	down the <Up/Down> keys for a second or longer will cause the values to 
  *	change rapidly. When done editting, Hold down the <Select> key for one 
- *	second until the device switches back to "Auto: mode. This saves any 
+ *	second until the device switches back to Auto mode. This saves any 
  *	changes. To discard changes (undo), quickly press and release the <Select> 
  *	key.
  *	
@@ -100,7 +100,7 @@
  *	"Pgm" mode. 
  * 
  *	********************
- *	* Ini:  0° Stp: 96 *
+ *	* Ini:  0Â° Stp: 96 *
  *	* Wrap:Y  Intv: 24 *
  *	********************
  * 
@@ -110,14 +110,14 @@
  *	to a stepper motor). The "Intv" parameter determines the amount of time 
  *	between successive steps. Increasing the step size or decreasing the 
  *	interval will cause the servo to rotate from one position to another 
- *  faster. However, most servos are limited in their rotation speeds and 
+ *  	faster. However, most servos are limited in their rotation speeds and 
  *	optimal values may have to be found experimentally or from the 
  *	manufacturer's harware specifications. The "Wrap" parameter sets whether 
  *	the current sequence wraps around and repeats continuously or stops after 
  *	the last event. "Y" indicates wrap-around and "N" indicates no wrap-around.
  * 
  * 
- *	"Comm" mode sets the serial_remote port communications protocols. The first 
+ *	"Comm" mode sets the serial port communications protocols. The first 
  *	parameter sets the baud rate and the second sets the number of start/stop 
  *	bits and parity. Keypad navigation/editting is done the same as the "Pgm" 
  *	and "Cfg" modes.
@@ -131,7 +131,7 @@
  * 
  *		key [params] terminator
  * 
- *	The "key" is one of the following three character strings:
+ *	The "key" is one of the following character strings:
  * 
  *		srt - starts the current sequence, 
  *		stp - stops the current sequence, 
@@ -176,9 +176,9 @@
 
 #include "config.h"
 //#define NOEEPROM 1	// Rewrites corrupted/missing EEPROM data. Uncomment & upload
-						// when running sketch for first time, or if EEPROM becomes 
-						// corrupted and causes errors/crashes. Then comment out and 
-						// reupload for normal operation.
+			// when running sketch for first time, or if EEPROM becomes 
+			// corrupted and causes errors/crashes. Then comment out and 
+			// reupload for normal operation.
 
 /*
  * Function decls.
@@ -308,7 +308,7 @@ RotaryActuator actuator(servo, &actuatorCallback);
 Sequencer sequencer(nullptr, nullptr, &sequencerCallback, true);
 
 /* Task scheduling objects, each ClockCommand is executed by the TaskScheduler 
-   according to its Task scheduling interval and state. */
+   according to its scheduling interval and state. */
 
 ClockCommand keypad_clock(keypad);
 ClockCommand display_clock(display);
@@ -426,7 +426,7 @@ void keypadPressEvent(const Keypad::Button& button)
 		{
 		case Mode::Auto:
 			if (sequencer.status() != Sequencer::Status::Idle)
-				break;
+			break;
 		case Mode::Man:
 			adjustEvent(index_field, Decrement);
 			break;
@@ -521,7 +521,7 @@ void keypadReleaseEvent(const Keypad::Button& button)
 		break;
 	case ButtonTag::Right:
 		break;
-	case ButtonTag::Select:	// Select button activated when released to allow for long-press.
+	case ButtonTag::Select:	// Select button "fires" only when released or long-pressed.
 		switch (mode)
 		{
 		case Mode::Auto:
@@ -710,7 +710,6 @@ void displayCallback()
 {
 	// Update the LCD display.
 	char buf[LcdCols + 1];
-	//tmElements_t tm;
 	msecs_t time = sequencer.event().duration_;
 	const angle_t angle = static_cast<actuator_command_type*>(sequencer.event().command_)->angle();
 	const Display::Screen screen = *display.screen();
