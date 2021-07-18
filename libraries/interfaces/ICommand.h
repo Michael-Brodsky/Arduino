@@ -5,7 +5,7 @@
  *	***************************************************************************
  *
  *	File: ICommand.h
- *	Date: March 10, 2021
+ *	Date: July 17, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -90,7 +90,7 @@
  */
 
 #if !defined ICOMMAND_H__
-# define ICOMMAND_H__ 20210310L
+# define ICOMMAND_H__ 20210717L
 
 # include "Callback.h"			// `Callback' types.
 # include "ICloneable.h"		// `ICloneable' interface.
@@ -110,13 +110,12 @@ struct ICloneCommand : public ICommand, public ICloneable
 	virtual ~ICloneCommand() = default;
 };
 
-// Serializable command interface.
 struct ISerializableCommand : public ICommand, public ISerializeable
 {
 	virtual ~ISerializableCommand() = default;
 };
 
-// Cloneable serializable command interface.
+// Serializable command interface.
 struct ISerialCommand : public ICloneCommand, public ISerializeable
 {
 	virtual ~ISerialCommand() = default;
