@@ -5,7 +5,7 @@
  *	***************************************************************************
  *
  *	File: functional.h
- *	Date: March 15, 2021
+ *	Date: June 9, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -50,7 +50,7 @@
  *	**************************************************************************/
 
 #if !defined FUNCTIONAL_H__
-#define FUNCTIONAL_H__ 20210315L
+#define FUNCTIONAL_H__ 20210609L
 
 #include <stddef.h>
 
