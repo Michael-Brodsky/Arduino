@@ -5,7 +5,7 @@
  *	***************************************************************************
  *
  *	File: AnalogKeypad.h
- *	Date: April 9, 2021
+ *	Date: July 18, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -46,7 +46,7 @@
  *      Since the buttons and their functions are implementation-specific, 
  *      the `ButtonTag' type is only forward declared and must be defined by 
  *      the client, and the definition must be visible to the `Keypad' class. 
- *      Buttons are passed as a collection to the `Keypad' class constructor. 
+ *      Buttons are passed as a collection the the `Keypad' class constructor. 
  * 
  *      Longpress events can occur in one of three ways, when a button is 
  *      held down, after a button is released, or they can be disabled. The 
@@ -75,7 +75,7 @@
  *      // Client instantiates a button collection. Each button must have a unique 
  *      // analog triggering level (see `analogRead()') and, the buttons MUST be 
  *      // instantiated in increasing order of this level within the collection, from lowest to highest.
- *      Keypad::Button buttons[] = { Keypad::Button(ButtonTag::Up, 0), Keypad::Button(ButtonTag::Down, 42), ... }; 
+ *      Keypad::Button buttons[] = { Keypad::Button(ButtonTag::Up, 0), Keypad::Button(ButtonTag::Up, 42), ... }; 
  * 
  *      // Client instantiates the `Keypad' object specifying the analog input 
  *      // pin to attach, the callback, the longpress mode and interval and 
@@ -103,7 +103,7 @@
  *	**************************************************************************/
 
 #if !defined ANALOGKEYPAD_H__ 
-# define ANALOGKEYPAD_H__ 20210409L
+# define ANALOGKEYPAD_H__ 20210718L
 
 # include "array.h"         // `ArrayWrapper' type.
 # include "IClockable.h"	// `IClockable' interface.
@@ -159,9 +159,9 @@ public:
 
 public:
     template <size_t Size>
-    Keypad(pin_t, Callback, LongPress, msecs_t, const Button (&)[Size]);        // Unsized array constructor.
-    Keypad(pin_t, Callback, LongPress, msecs_t, const Button[], size_t);        // Sized array constructor.
-    Keypad(pin_t, Callback, LongPress, msecs_t, const Button*, const Button*);  // Range constructor.
+    Keypad(pin_t, Callback, LongPress, msecs_t, const Button (&)[Size]);
+    Keypad(pin_t, Callback, LongPress, msecs_t, const Button[], size_t);
+    Keypad(pin_t, Callback, LongPress, msecs_t, const Button*, const Button*);
 
 public:
     // Polls the keypad for button events.
