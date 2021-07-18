@@ -5,7 +5,7 @@
  *	***************************************************************************
  *
  *	File: ISerializeable.h
- *	Date: April 10, 2021
+ *	Date: July 18, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -41,7 +41,7 @@
  *	***************************************************************************/
 
 #if !defined ISERIALIZEABLE_H__
-#define ISERIALIZEABLE_H__ 20210410L
+#define ISERIALIZEABLE_H__ 20210718L
 
 class EEPROMStream;	// EEPROM stream type forward decl.
 
