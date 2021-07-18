@@ -4,7 +4,7 @@
  *	***************************************************************************
  *
  *	File: TaskScheduler.h
- *	Date: May 31, 2021
+ *	Date: July 18, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -28,7 +28,7 @@
  *	**************************************************************************/
 
 #if !defined TASKSCHEDULER_H__
-# define TASKSCHEDULER_H__ 20210531L 
+# define TASKSCHEDULER_H__ 20210718L 
 
 # include "library.h"		// Arduino API.
 # include "types.h"			// `Arduino' and `stdint' types.
