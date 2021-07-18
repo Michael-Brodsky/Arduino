@@ -5,7 +5,7 @@
  *	***************************************************************************
  *
  *	File: type_traits.h
- *	Date: April 8, 2021
+ *	Date: July 17, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -50,7 +50,7 @@
  *	**************************************************************************/
 
 #if !defined TYPE_TRAITS_H__
-#define TYPE_TRAITS_H__ 20210408L
+#define TYPE_TRAITS_H__ 20210717L
 
 #include <stddef.h>
 #include <limits.h>
@@ -160,6 +160,15 @@ template<>
 struct std_is_integral<signed char> : public std_true_type {};
 
 template<>
+struct std_is_integral<wchar_t> : public std_true_type {};
+
+template<>
+struct std_is_integral<char16_t> : public std_true_type {};
+
+template<>
+struct std_is_integral<char32_t> : public std_true_type {};
+
+template<>
 struct std_is_integral<unsigned short> : public std_true_type {};
 
 template<>
@@ -204,6 +213,9 @@ template<>
 struct std_is_signed<signed char> : public std_true_type {};
 
 template<>
+struct std_is_signed<wchar_t> : public std_true_type {};
+
+template<>
 struct std_is_signed<signed short> : public std_true_type {};
 
 template<>
@@ -225,6 +237,100 @@ struct std_is_signed<double> : public std_true_type	{};
 
 template<>
 struct std_is_signed<long double> : public std_true_type {};
+
+template<class T>
+struct std_make_signed { typedef T type; };
+
+template<>
+struct std_make_signed<char> { typedef signed char type; };
+
+template<>
+struct std_make_signed<signed char> { typedef signed char type; };
+
+template<>
+struct std_make_signed<unsigned char> { typedef signed char type; };
+
+template<>
+struct std_make_signed<wchar_t> { typedef wchar_t type; };
+
+template<>
+struct std_make_signed<char16_t> { typedef signed short type; };
+
+template<>
+struct std_make_signed<char32_t> { typedef signed long type; };
+
+template<>
+struct std_make_signed<signed short> { typedef signed short type; };
+
+template<>
+struct std_make_signed<unsigned short> { typedef signed short type; };
+
+template<>
+struct std_make_signed<signed int> { typedef signed int type; };
+
+template<>
+struct std_make_signed<unsigned int> { typedef signed int type; };
+
+template<>
+struct std_make_signed<signed long> { typedef signed long type; };
+
+template<>
+struct std_make_signed<unsigned long> { typedef signed long type; };
+
+#if defined LLONG_MAX
+template<>
+struct std_make_signed<signed long long> { typedef signed long long type; };
+
+template<>
+struct std_make_signed<unsigned long long> { typedef signed long long type; };
+#endif // defined LLONG_MAX
+
+template<class T>
+struct std_make_unsigned { typedef T type; };
+
+template<>
+struct std_make_unsigned<char> { typedef unsigned char type; };
+
+template<>
+struct std_make_unsigned<signed char> { typedef unsigned char type; };
+
+template<>
+struct std_make_unsigned<unsigned char> { typedef unsigned char type; };
+
+template<>
+struct std_make_unsigned<wchar_t> { typedef unsigned short type; };
+
+template<>
+struct std_make_unsigned<char16_t> { typedef char16_t type; };
+
+template<>
+struct std_make_unsigned<char32_t> { typedef char32_t type; };
+
+template<>
+struct std_make_unsigned<signed short> { typedef unsigned short type; };
+
+template<>
+struct std_make_unsigned<unsigned short> { typedef unsigned short type; };
+
+template<>
+struct std_make_unsigned<signed int> { typedef unsigned int type; };
+
+template<>
+struct std_make_unsigned<unsigned int> { typedef unsigned int type; };
+
+template<>
+struct std_make_unsigned<signed long> { typedef unsigned long type; };
+
+template<>
+struct std_make_unsigned<unsigned long> { typedef unsigned long type; };
+
+#if defined LLONG_MAX
+template<>
+struct std_make_unsigned<signed long long> { typedef unsigned long long type; };
+
+template<>
+struct std_make_unsigned<unsigned long long> { typedef unsigned long long type; };
+#endif // defined LLONG_MAX
 
 template<class T>
 struct std_remove_reference { typedef T type; };
