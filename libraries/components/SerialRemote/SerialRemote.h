@@ -4,7 +4,7 @@
  *	***************************************************************************
  *
  *	File: SerialRemote.h
- *	Date: May 31, 2021
+ *	Date: July 18, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -28,7 +28,7 @@
  *	**************************************************************************/
 
 #if !defined SERIALREMOTE_H__ 
-# define SERIALREMOTE_H__ 20210531L
+# define SERIALREMOTE_H__ 20210718L
 
 # include <string.h>		// C-stdlib string functions.
 # include "array.h"			// STL fixed-size array types.
