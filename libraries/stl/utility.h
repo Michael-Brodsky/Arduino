@@ -5,7 +5,7 @@
  *	***************************************************************************
  *
  *	File: utility.h
- *	Date: April 8, 2021
+ *	Date: June 9, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -50,7 +50,7 @@
  *	**************************************************************************/
 
 #if !defined UTILITY_H__
-# define UTILITY_H__ 20210408L
+# define UTILITY_H__ 20210609L
 
 # include <stddef.h>
 # include "type_traits.h"
