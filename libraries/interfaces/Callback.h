@@ -4,7 +4,7 @@
  *	***************************************************************************
  *
  *	File: Callback.h
- *	Date: March 10, 2021
+ *	Date: July 17, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -51,7 +51,7 @@
  */
 
 #if !defined CALLBACK_H__
-# define CALLBACK_H__ 20210310L
+# define CALLBACK_H__ 20210717L
 
 # include "types.h"	// Check for compiler C++ Standard.
 
