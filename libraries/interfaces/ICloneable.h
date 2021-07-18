@@ -5,7 +5,7 @@
  *	***************************************************************************
  *
  *	File: ICloneable.h
- *	Date: January 24, 2020
+ *	Date: July 17, 2020
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -29,7 +29,7 @@
  *	**************************************************************************/
 
 #if !defined ICLONEABLE_H__
-#define ICLONEABLE_H__ 20200124L
+#define ICLONEABLE_H__ 20210717L
 
 struct ICloneable
 {
