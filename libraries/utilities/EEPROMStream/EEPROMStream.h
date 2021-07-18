@@ -5,7 +5,7 @@
  *	***************************************************************************
  *
  *	File: EEPROMStream.h
- *	Date: April 22, 2021
+ *	Date: July 17, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -135,7 +135,7 @@
  *	***************************************************************************/
 
 #if !defined EEPROMSTREAM_H__ 
-#define EEPROMSTREAM_H__ 20210422L
+#define EEPROMSTREAM_H__ 20210717L
 
 # include "library.h"			// Arduino API
 # include "EEPROM.h"			// Arduino EEPROM api.
