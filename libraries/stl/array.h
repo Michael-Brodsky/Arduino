@@ -5,7 +5,7 @@
  *  ***************************************************************************
  *
  *	File: array.h
- *	Date: April 12, 2021
+ *	Date: July 17, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -56,7 +56,7 @@
  *		adaptors, `ReverseIterator' and `ConstReverseIterator', are also 
  *		defined, but are not nested types within `std_array'. The rationale is 
  *		since the vast majority of microcontroller applications do not use 
- *		dynamic memory allocation, any sequence container types as well 
+ *		dynamic memory allocation, any sequence container types that as well 
  *		as their iterators can be implemented in terms of `std_array' and 
  *		adapted as necessary.
  * 
@@ -67,7 +67,7 @@
  *	**************************************************************************/
 
 #if !defined ARRAY_H__
-# define ARRAY_H__ 20210416L
+# define ARRAY_H__ 20210717L
 
 # include <assert.h>	// `assert()' macro.
 # include "iterator.h"	// Container iterator support.
