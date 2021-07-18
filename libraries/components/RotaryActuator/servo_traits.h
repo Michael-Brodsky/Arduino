@@ -4,7 +4,7 @@
  *	***************************************************************************
  *
  *	File: servo_traits.h
- *	Date: May 31, 2021
+ *	Date: July 18, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -28,7 +28,7 @@
  *	**************************************************************************/
 
 #if !defined SERVO_TRAITS_H__ 
-# define SERVO_TRAITS_H__ 20210531L
+# define SERVO_TRAITS_H__ 20210718L
 
 # include "types.h"				// `Arduino and `stdint' types.
 # include "numeric_limits.h"	// `numeric_limits' types.
