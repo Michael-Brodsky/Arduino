@@ -7,7 +7,7 @@
  *	***************************************************************************
  *
  *	File: types.h
- *	Date: March 10, 2021
+ *	Date: July 17, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com

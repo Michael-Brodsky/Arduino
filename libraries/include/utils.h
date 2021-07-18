@@ -4,7 +4,7 @@
  *	***************************************************************************
  *
  *	File: utils.h
- *	Date: November 11, 2019
+ *	Date: July 17, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -28,7 +28,7 @@
  *	**************************************************************************/
 
 #if !defined UTILS_H__
-# define UTILS_H__ 20191111L
+# define UTILS_H__ 20210717L
 
 # include <assert.h>
 # include <string.h>
