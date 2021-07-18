@@ -81,7 +81,7 @@
  *	successive steps. Increasing the step size or decreasing the interval 
  *	will cause the servo to rotate from one position to another faster. 
  *	However, most servos are limited in their rotation speeds and optimal 
- *  	values may have to be found experimentally or from the servo harware 
+ *  values may have to be found experimentally or from the servo harware 
  *	specifications. The "Wrap" parameter sets whether the current sequence 
  *	wraps around and repeats continuously or stops after the last event. "Y" 
  *	indicates wrap-around and "N" indicates no wrap-around.
@@ -141,18 +141,18 @@
  *	Sample display in Auto/Man modes:
  * 
  *	********************
- *  	* Auto:01   Closed *
- *  	*      0Â° 00:00:10 *
+ *  * Auto:01   Closed *
+ *  *      0° 00:00:10 *
  *	********************
  * 
  *	  Mode:nn    "Name"
- *	      dddÂ° hh:mm:ss
+ *	      ddd° hh:mm:ss
  * 
  *	Mode:    current operating mode
  *	nn:      event number (1, 2, 3, ...)
  *	Name:    event human-readable name, upto 7 chars max.
- *  	ddd:     angle (actuator position) in degrees of rotation.
- *  	hh:mm:ss event duration in hours, minutes and seconds.
+ *  ddd:     angle (actuator position) in degrees of rotation.
+ *  hh:mm:ss event duration in hours, minutes and seconds.
  * 
  *	In editting modes, the cursor changes to a flashing block and 
  *	highlights the current field on the display.
@@ -164,9 +164,9 @@
 
 #include "config.h"
 //#define NOEEPROM 1	// Rewrites corrupted/missing EEPROM data. Uncomment & upload
-			// when running sketch for first time, or if EEPROM becomes 
-			// corrupted and causes errors/crashes. Then comment out and 
-			// reupload for normal operation.
+						// when running sketch for first time, or if EEPROM becomes 
+						// corrupted and causes errors/crashes. Then comment out and 
+						// reupload for normal operation.
 
 /*
  * Function decls.
@@ -195,6 +195,7 @@ void adjustConfig(const Display::Field&, int8_t);
 void adjustStep(int8_t);
 void adjustInterval(int8_t);
 void adjustWrap(int8_t);
+void adjustInitAngle(int8_t);
 void adjustComms(const Display::Field&, int8_t);
 void listEvents(const sequence_type&);
 void storeEvents(const char*);
@@ -233,9 +234,10 @@ const Display::Field angle_field(AngleCol, BottomRow);
 const Display::Field hour_field(HourCol, BottomRow);
 const Display::Field minute_field(MinuteCol, BottomRow);
 const Display::Field second_field(SecondCol, BottomRow);
-const Display::Field step_field(StepCol, TopRow);
-const Display::Field interval_field(IntervalCol, BottomRow);
-const Display::Field wrap_field(WrapCol, BottomRow);
+const Display::Field field_init_angle(ColumnInitAngle, TopRow);
+const Display::Field field_step_size(ColumnStepSize, TopRow);
+const Display::Field field_wrap(ColumnWrap, BottomRow);
+const Display::Field field_step_interval(ColumnStepInterval, BottomRow);
 const Display::Field baud_field(BaudCol, TopRow);
 const Display::Field proto_field(ProtoCol, TopRow);
 const Display::Field auto_field(AutoCol, TopRow);
@@ -245,7 +247,7 @@ const Display::Field cfg_field(CfgCol, BottomRow);
 const Display::Field comm_field(CommCol, BottomRow);
 const Display::Field man_fields[] = { index_field };
 const Display::Field pgm_fields[] = { index_field, angle_field, hour_field, minute_field, second_field };
-const Display::Field cgf_fields[] = { step_field, wrap_field, interval_field };
+const Display::Field cgf_fields[] = { field_init_angle, field_step_size, field_wrap, field_step_interval };
 const Display::Field menu_fields[] = { auto_field, man_field, pgm_field, cfg_field, comm_field };
 const Display::Field comm_fields[] = { baud_field, proto_field };
 
@@ -254,7 +256,7 @@ const Display::Field comm_fields[] = { baud_field, proto_field };
 
 const Display::Screen man_screen(ManLabel, man_fields, EventPrintFmt);
 const Display::Screen pgm_screen(PgmLabel, pgm_fields, EventPrintFmt);
-const Display::Screen cfg_screen(CfgLabel, cgf_fields, ConfigPrintFmt);
+const Display::Screen cfg_screen(LabelConfigScreen, cgf_fields, PrintFmtConfigScreen);
 const Display::Screen menu_screen(MenuLabel, menu_fields, MenuPrintFmt);
 const Display::Screen comm_screen(CommLabel, comm_fields, CommPrintFmt);
 const Display::Screen auto_screen(AutoLabel, nullptr, nullptr, std_begin(EventPrintFmt), std_end(EventPrintFmt));
@@ -285,10 +287,12 @@ Keypad keypad(KeypadInputPin, &keypadCallback, Keypad::LongPress::Hold, KeypadLo
 LiquidCrystal lcd(LcdRs, LcdEnable, LcdD4, LcdD5, LcdD6, LcdD7);
 Display display(lcd, &displayCallback);
 Spinner spinner(SpinnerChars, SpinnerDivisor); // Way cool spinner thingy to indicate when sequencer is active.
-config_t config(ServoDfltStepSize, ServoDfltStepInterval, false);
-SerialComms serial_comms(SupportedBaudRates, SupportedSerialProtocols);
+//SerialComms serial_comms(SupportedBaudRates, SupportedSerialProtocols);
+SerialComms serial_comms;
 SerialRemote serial(serial_buf, serial_cmds);
 SweepServo<servo_hardware> servo;
+angle_t servo_init_angle = ServoMinAngle;
+config_t config(ServoDfltStepSize, ServoDfltStepInterval, servo_init_angle, false);
 RotaryActuator actuator(servo, &actuatorCallback);
 Sequencer sequencer(nullptr, nullptr, &sequencerCallback, true);
 
@@ -358,7 +362,7 @@ void setup()
 	setMode(Mode::Auto);
 	// Attach & initialize the servo and actuator objects.
 	servo.attach(ServoControlPin);
-	servo.initialize();
+	servo.initialize(servo_init_angle);
 	actuator.begin();
 }
 
@@ -410,8 +414,11 @@ void keypadPressEvent(const Keypad::Button& button)
 		switch (mode)
 		{
 		case Mode::Auto:
-			break;
+			if (sequencer.status() != Sequencer::Status::Idle)
+				break;
 		case Mode::Man:
+			adjustEvent(index_field, Decrement);
+			break;
 		case Mode::Pgm:
 			adjustEvent(*display.field(), Decrement);
 			break;
@@ -443,13 +450,15 @@ void keypadPressEvent(const Keypad::Button& button)
 			break;
 		}
 		break;
-	case ButtonTag::Right:	// Right button resets the sequencer in Auto mode ... 
+	case ButtonTag::Right:	// Right button resets the sequencer in Auto and Man modes ... 
 		switch (mode)
 		{
 		case Mode::Auto:
-			sequencer.reset();
-			break;
+			if (sequencer.status() == Sequencer::Status::Active)
+				break;
 		case Mode::Man:
+			sequencer.reset();
+			display.print(); /* Man mode requires display update. */
 			break;
 		case Mode::Pgm:		// ... else it scrolls the cursor to the next field.
 		case Mode::Cfg:
@@ -467,8 +476,11 @@ void keypadPressEvent(const Keypad::Button& button)
 		switch (mode)
 		{
 		case Mode::Auto:
-			break;
+			if (sequencer.status() != Sequencer::Status::Idle)
+				break;
 		case Mode::Man:
+			adjustEvent(index_field, Increment);
+			break;
 		case Mode::Pgm:
 			adjustEvent(*display.field(), Increment);
 			break;
@@ -686,8 +698,8 @@ void serialCallback(CommandTag tag)
 void displayCallback()
 {
 	// Update the LCD display.
-	char buf[LcdCols + 1U];
-	tmElements_t tm;
+	char buf[LcdCols + 1];
+	//tmElements_t tm;
 	msecs_t time = sequencer.event().duration_;
 	const angle_t angle = static_cast<actuator_command_type*>(sequencer.event().command_)->angle();
 	const Display::Screen screen = *display.screen();
@@ -707,20 +719,22 @@ void displayCallback()
 		time += RemainingTimeOffset;
 	case Mode::Pgm:
 	case Mode::Man:
-		breakTime(time / 1000UL, tm);	// Event times are milliseconds, `tmElements_t' expects seconds.
+	{
+		std_chrono_millis tm(time);
 		lcd.print(screen(buf, row, label, sequencer.index(), sequencer.event().name_)); // Print top row.
 		lcd.setCursor(col, ++row);		// Set cursor to bottom row.
-		lcd.print(screen(buf, row, spinner.spin(), angle, DegreesSymbol, tm.Hour, tm.Minute, tm.Second)); // Print bottom row.
+		lcd.print(screen(buf, row, spinner.spin(), angle, DegreesSymbol, tm.hours(), tm.minutes(), tm.seconds())); // Print bottom row.
 		break;
+	}
 	case Mode::Cfg:
-		lcd.print(screen(buf, row, label, servo.stepSize()));
+		lcd.print(screen(buf, row, servo_init_angle, DegreesSymbol, servo.stepSize()));
 		lcd.setCursor(col, ++row);
 		lcd.print(screen(buf, row, wrap, actuator_task.interval()));
 		break;
 	case Mode::Menu:
 		lcd.print(screen(buf, row, label, AutoLabel, ManLabel));
 		lcd.setCursor(col, ++row);
-		lcd.print(screen(buf, row, PgmLabel, CfgLabel, CommLabel));
+		lcd.print(screen(buf, row, PgmLabel, LabelConfigScreen, CommLabel));
 		break;
 	case Mode::Comms:
 		lcd.print(screen(buf, row, label, serial_comms.baud(), serial_comms.protocol().first)); // Comms screen only prints top row.
@@ -832,8 +846,18 @@ void setMode(Mode m)
 
 void adjustEvent(const Display::Field& field, int8_t adjustment)
 {
-	if (display.cursor() != Display::Cursor::Edit)
-		display.cursor(Display::Cursor::Edit);
+	switch (mode)
+	{
+	case Mode::Pgm:
+	case Mode::Cfg:
+	case Mode::Menu:
+	case Mode::Comms:
+		if (display.cursor() != Display::Cursor::Edit)
+			display.cursor(Display::Cursor::Edit);
+		break;
+	default:
+		break;
+	}
 	if (field == index_field)
 		adjustIndex(adjustment);
 	else if (field == angle_field)
@@ -845,18 +869,17 @@ void adjustEvent(const Display::Field& field, int8_t adjustment)
 
 void adjustDuration(const Display::Field& field, int8_t adjustment)
 {
-	tmElements_t tm;
-	uint8_t* p = nullptr;
+	time_t adjusted = sequencer.event().duration_;
 
-	breakTime(sequencer.event().duration_ / 1000UL, tm); // Event times are milliseconds, `tmElements_t' expects seconds.
 	if (field == hour_field)
-		p = &tm.Hour;
+		adjusted += (MillisPerHour * adjustment);
 	else if (field == minute_field)
-		p = &tm.Minute;
+		adjusted += (MillisPerMinute * adjustment);
 	else if (field == second_field)
-		p = &tm.Second;
-	*p += adjustment;
-	sequencer.event().duration_ = makeTime(tm) * 1000UL;
+		adjusted += (MillisPerSecond * adjustment);
+	if (adjusted > MillisPerDay)
+		adjusted = adjustment < 0 ? MillisPerDay : 0;
+	sequencer.event().duration_ = adjusted;
 }
 
 void adjustIndex(int8_t adjustment)
@@ -893,10 +916,12 @@ void adjustConfig(const Display::Field& field, int8_t adjustment)
 {
 	if (display.cursor() != Display::Cursor::Edit)
 		display.cursor(Display::Cursor::Edit);
-	if (field == step_field)
+	if (field == field_step_size)
 		adjustStep(adjustment);
-	else if (field == wrap_field)
+	else if (field == field_wrap)
 		adjustWrap(adjustment);
+	else if (field == field_init_angle)
+		adjustInitAngle(adjustment);
 	else
 		adjustInterval(adjustment);
 	display.print();
@@ -947,6 +972,24 @@ void adjustInterval(int8_t adjustment)
 void adjustWrap(int8_t adjustment)
 {
 	sequencer.wrap(!sequencer.wrap());
+}
+
+void adjustInitAngle(int8_t adjustment)
+{
+	switch (adjustment)
+	{
+	case Increment:
+		if (++servo_init_angle == ServoMaxAngle + 1U)
+			servo_init_angle = ServoMinAngle;
+		break;
+	case Decrement:
+		if (servo_init_angle == ServoMinAngle)
+			servo_init_angle = ServoMaxAngle + 1U;
+		--servo_init_angle;
+		break;
+	default:
+		break;
+	}
 }
 
 void adjustComms(const Display::Field& field, int8_t adjustment)
@@ -1135,6 +1178,7 @@ void copyConfig(config_t& copy)
 {
 	copy.step_interval_ = actuator_task.interval();
 	copy.step_size_ = servo.stepSize();
+	copy.init_angle_ = servo_init_angle;
 	copy.wrap_ = sequencer.wrap();
 }
 
@@ -1142,6 +1186,7 @@ void restoreConfig(config_t& copy)
 {
 	actuator_task.interval() = copy.step_interval_;
 	servo.stepSize(copy.step_size_);
+	servo_init_angle = copy.init_angle_;
 	sequencer.wrap(copy.wrap_);
 }
 

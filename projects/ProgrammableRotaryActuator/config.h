@@ -4,7 +4,7 @@
  *	***************************************************************************
  *
  *	File: config.h
- *	Date: May 30, 2021
+ *	Date: July 18, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -28,17 +28,17 @@
  *	**************************************************************************/
 
 #if !defined CONFIG_H__ 
-# define CONFIG_H__ 20210530L
+# define CONFIG_H__ 20210718L
 
-# include <utility.h>				// `std_pair' type.
-# include <utils.h>					// `resetFunc', `Print', `PrintLn', `charcat' functions.
-# include <TimeLib.h>				// Arduino time lib.
-# include <AnalogKeypad.h>			// `Keypad' type.
-# include <Display.h>				// `Display' type. 
-# include <TaskScheduler.h>			// `TaskScheduler' type.
-# include <RotaryActuator.h>			// `RotaryActuator' and `SweepServo' types
-# include <Sequencer.h>				// `Sequencer' type.
-# include <SerialRemote.h>			// `SerialRemote' type.
+#include <utility.h>		// `std_pair' type.
+#include <utils.h>			// `resetFunc', `Print', `PrintLn', `charcat' functions.
+#include <chrono.h>			// Time & date lib.
+#include <AnalogKeypad.h>	// `Keypad' type.
+#include <Display.h>		// `Display' type. 
+#include <TaskScheduler.h>	// `TaskScheduler' type.
+#include <RotaryActuator.h>	// `RotaryActuator' and `SweepServo' types
+#include <Sequencer.h>		// `Sequencer' type.
+#include <SerialRemote.h>	// `SerialRemote' type.
 
  /*
   * LCD display hardware constants
@@ -59,13 +59,13 @@ const uint8_t LcdRows = 2;
  */
 
 const char* EventPrintFmt[] = { "%4s:%02u %8s", "%c  %3u%c %02u:%02u:%02u" };
-const char* ConfigPrintFmt[] = { "%4s:   Step:%3u", "Wrap:%c Intvl:%3u" };
 const char* MenuPrintFmt[] = { "%4s: %4s  %4s", "%4s  %4s  %4s" };
+const char*	PrintFmtConfigScreen[] =	{ "Ini:%3u%c Stp:%3u", "Wrap:%c  Intv:%3u" };
 const char* CommPrintFmt[] = { "%4s: %6lu %3s", "" };
 const char* AutoLabel = "Auto";
 const char* ManLabel = " Man";
 const char* PgmLabel = " Pgm";
-const char* CfgLabel = " Cfg";
+const char*	LabelConfigScreen =	" Cfg";
 const char* CommLabel = "Comm";
 const char* MenuLabel = "Menu";
 const int DecimalRadix = 10;
@@ -97,9 +97,10 @@ const uint8_t AngleCol = 5;
 const uint8_t HourCol = 9;
 const uint8_t MinuteCol = 12;
 const uint8_t SecondCol = 15;
-const uint8_t StepCol = 15;
-const uint8_t IntervalCol = 15;
-const uint8_t WrapCol = 5;
+const uint8_t ColumnInitAngle =			6;
+const uint8_t ColumnStepSize =			15;
+const uint8_t ColumnWrap =				5;
+const uint8_t ColumnStepInterval =		15;
 const uint8_t BaudCol = 11;
 const uint8_t ProtoCol = 15;
 const uint8_t AutoCol = 9;
@@ -136,8 +137,8 @@ const analog_t SelectButtonTriggerLevel = 800;
 using baud_type = unsigned long;
 using protocol_type = char;
 using serial_type = std_pair<const char*, const protocol_type>;
-const baud_type SupportedBaudRates[] = { 300, 600, 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200 };
-const serial_type SupportedSerialProtocols[] = // Commented out stuff to free up memory on Uno.
+const baud_type SupportedBaudRates[] = { 300, 600, 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200 }; 
+const serial_type SupportedSerialProtocols[] = // Commented out rarely-used stuff to free up memory on Uno.
 {
 	//serial_type("5N1", SERIAL_5N1),
 	//serial_type("6N1", SERIAL_6N1),
@@ -177,20 +178,9 @@ public:
 	enum class Select { Baud = 0, Protocol };
 
 public:
-	template<size_t Size1, size_t Size2>
-	SerialComms(const baud_type(&supported_baud_rates)[Size1], const serial_type(&supported_protocols)[Size2]) :
-		supported_baud_rates_(supported_baud_rates), baud_rate_(match(DefaultBaudRate)), baud_rate_copy_(baud_rate_),
-		supported_protocols_(supported_protocols), protocol_(match(DefaultSerialProtocol)), protocol_copy_(protocol_),
-		selection_(Select::Baud)
-	{}
-	SerialComms(const baud_type supported_baud_rates[], size_t size1, const serial_type supported_protocols[], size_t size2) :
-		supported_baud_rates_(supported_baud_rates, size1), baud_rate_(match(DefaultBaudRate)), baud_rate_copy_(baud_rate_),
-		supported_protocols_(supported_protocols, size2), protocol_(match(DefaultSerialProtocol)), protocol_copy_(protocol_),
-		selection_(Select::Baud)
-	{}
-	SerialComms(const baud_type* first1, const baud_type* last1, const serial_type* first2, const serial_type* last2) :
-		supported_baud_rates_(first1, last1), baud_rate_(match(DefaultBaudRate)), baud_rate_copy_(baud_rate_),
-		supported_protocols_(first2, last2), protocol_(match(DefaultSerialProtocol)), protocol_copy_(protocol_),
+	SerialComms() :
+		baud_rate_(match(DefaultBaudRate)), baud_rate_copy_(baud_rate_),
+		protocol_(match(DefaultSerialProtocol)), protocol_copy_(protocol_),
 		selection_(Select::Baud)
 	{}
 
@@ -199,28 +189,37 @@ public:
 	{
 		serial_iterator_type it = match(value);
 
-		protocol_ = it != std_end(supported_protocols_) ? it : match(DefaultSerialProtocol);
+		protocol_ = it != std_end(SupportedSerialProtocols) ? it : match(DefaultSerialProtocol);
 	}
-	const serial_type& protocol() const { return *protocol_; }
+	const serial_type& protocol() const 
+	{ 
+		return *protocol_; 
+	}
 	void baud(const baud_type& value)
 	{
 		baud_iterator_type it = match(value);
 
-		baud_rate_ = it != std_end(supported_baud_rates_) ? it : match(DefaultBaudRate);
+		baud_rate_ = it != std_end(SupportedBaudRates) ? it : match(DefaultBaudRate);
 	}
-	const baud_type& baud() const { return *baud_rate_; }
-	void select(Select selection) { selection_ = selection; }
+	const baud_type& baud() const 
+	{ 
+		return *baud_rate_; 
+	}
+	void select(Select selection) 
+	{ 
+		selection_ = selection; 
+	}
 	void next()
 	{
 		switch (selection_)
 		{
 		case SerialComms::Select::Baud:
-			if (++baud_rate_ == std_end(supported_baud_rates_))
-				baud_rate_ = std_begin(supported_baud_rates_);
+			if (++baud_rate_ == std_end(SupportedBaudRates))
+				baud_rate_ = std_begin(SupportedBaudRates);
 			break;
 		case SerialComms::Select::Protocol:
-			if (++protocol_ == std_end(supported_protocols_))
-				protocol_ = std_begin(supported_protocols_);
+			if (++protocol_ == std_end(SupportedSerialProtocols))
+				protocol_ = std_begin(SupportedSerialProtocols);
 			break;
 		default:
 			break;
@@ -231,20 +230,24 @@ public:
 		switch (selection_)
 		{
 		case SerialComms::Select::Baud:
-			if (baud_rate_ == std_begin(supported_baud_rates_))
-				baud_rate_ = std_end(supported_baud_rates_);
+			if (baud_rate_ == std_begin(SupportedBaudRates))
+				baud_rate_ = std_end(SupportedBaudRates);
 			--baud_rate_;
 			break;
 		case SerialComms::Select::Protocol:
-			if (protocol_ == std_begin(supported_protocols_))
-				protocol_ = std_end(supported_protocols_);
+			if (protocol_ == std_begin(SupportedSerialProtocols))
+				protocol_ = std_end(SupportedSerialProtocols);
 			--protocol_;
 			break;
 		default:
 			break;
 		}
 	}
-	void serialize(EEPROMStream& s) const override { s << baud(); s << protocol().second; }
+	void serialize(EEPROMStream& s) const override 
+	{ 
+		s << baud(); 
+		s << protocol().second; 
+	}
 	void deserialize(EEPROMStream& s) override
 	{
 		baud_type b;
@@ -255,28 +258,34 @@ public:
 		baud(b);
 		protocol(p);
 	}
-	void copy() { baud_rate_copy_ = baud_rate_; protocol_copy_ = protocol_; }
-	void restore() { baud_rate_ = baud_rate_copy_; protocol_ = protocol_copy_; }
+	void copy() 
+	{ 
+		baud_rate_copy_ = baud_rate_; 
+		protocol_copy_ = protocol_; 
+	}
+	void restore() 
+	{ 
+		baud_rate_ = baud_rate_copy_; 
+		protocol_ = protocol_copy_; 
+	}
 
 private:
 	baud_iterator_type match(const baud_type baud) const
 	{
-		return std_find(std_begin(supported_baud_rates_), std_end(supported_baud_rates_), baud);
+		return std_find(std_begin(SupportedBaudRates), std_end(SupportedBaudRates), baud);
 	}
 	serial_iterator_type match(const protocol_type protocol) const
 	{
-		for (auto& it : supported_protocols_)
+		for (auto& it : SupportedSerialProtocols)
 		{
 			if (it.second == protocol)
 				return &it;
 		}
 
-		return std_end(supported_protocols_);
+		return std_end(SupportedSerialProtocols);
 	}
 
 private:
-	baud_container_type supported_baud_rates_;
-	serial_container_type supported_protocols_;
 	baud_iterator_type baud_rate_;
 	serial_iterator_type protocol_;
 	baud_iterator_type baud_rate_copy_;
@@ -377,7 +386,7 @@ const uint8_t MaxEventRecords = 8;
 const uint8_t MaxEventRecords = 2;
 #endif
 const uint8_t MaxCharsPerRecord = 23;
-const uint8_t MaxLengthEventName = 8;
+const uint8_t MaxLengthEventName = 7;
 
 /*
  * Application Types
@@ -415,14 +424,15 @@ struct config_t : public ISerializeable
 {
 	step_t	step_size_;
 	msecs_t	step_interval_;
+	angle_t init_angle_;
 	bool	wrap_;
 
 	config_t() = default;
-	config_t(step_t	step_size, msecs_t step_interval, bool wrap) :
-		ISerializeable(), step_size_(step_size), step_interval_(step_interval), wrap_(wrap) 
+	config_t(step_t	step_size, msecs_t step_interval, angle_t init_angle, bool wrap) :
+		ISerializeable(), step_size_(step_size), step_interval_(step_interval), init_angle_(init_angle), wrap_(wrap)
 	{}
-	void serialize(EEPROMStream& s) const override { s << step_size_; s << step_interval_; s << wrap_; }
-	void deserialize(EEPROMStream& s) override { s >> step_size_; s >> step_interval_; s >> wrap_; }
+	void serialize(EEPROMStream& s) const override { s << step_size_; s << step_interval_; s << init_angle_; s << wrap_; }
+	void deserialize(EEPROMStream& s) override { s >> step_size_; s >> step_interval_; s >> init_angle_; s >> wrap_; }
 };
 
 // Serializable sequence type.
