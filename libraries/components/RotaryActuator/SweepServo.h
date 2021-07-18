@@ -4,7 +4,7 @@
  *	***************************************************************************
  *
  *	File: SweepServo.h
- *	Date: May 31, 2021
+ *	Date: July 18, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -28,7 +28,7 @@
  *	**************************************************************************/
 
 #if !defined SWEEPSERVO_H__ 
-# define SWEEPSERVO_H__ 20210531L
+# define SWEEPSERVO_H__ 20210718L
 
 # include "Servo.h"			// Arduino `Servo' API.
 # include "IClockable.h"	// `IClockable' interface.
@@ -49,6 +49,7 @@ public:
 	pin_t	attach(pin_t);
 	bool	attached() const;
 	angle_t	initialize(angle_t angle = 0);
+	angle_t initAngle() const;
 	size_t	sweep(angle_t angle) override;
 	angle_t	sweep() const override;
 	void	stepSize(step_t);
@@ -69,6 +70,7 @@ private:
 	stepdir_t		step_dir_;
 	step_t			step_size_;
 	size_t			steps_remaining_;
+	angle_t			init_angle_;
 };
 
 template <class T>
