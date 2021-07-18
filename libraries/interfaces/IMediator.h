@@ -5,7 +5,7 @@
  *	***************************************************************************
  *
  *	File: IMediator.h
- *	Date: April 9, 2021
+ *	Date: July 17, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -29,7 +29,7 @@
  *	**************************************************************************/
 
 #if !defined IMEDIATOR_H__
-#define IMEDIATOR_H__ 20210408L
+#define IMEDIATOR_H__ 20210717L
 
 struct IComponent;	// Forward decl.
 class Notification;	// Forward decl for user-defined notification type.
