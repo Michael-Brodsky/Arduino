@@ -35,6 +35,7 @@
  *  This file declares the following types:
  *
  *        pin_t:  An unsigned integral type that holds any GPIO pin number.
+ *		 time_t:  An unsigned integral type that represents a time interval.
  *      msecs_t:  An unsigned integral type that represents a time in 
  *                milliseconds.
  *      usecs_t:  An unsigned integral type that represents a time in 
@@ -58,7 +59,7 @@
  */
 
 #if !defined TYPES_H__
-# define TYPES_H__ 20210310L
+# define TYPES_H__ 20210717L
 
 # include <stddef.h>
 # include <stdint.h>
@@ -72,6 +73,15 @@ typedef __PIN_T_TYPE pin_t;		    // Unsigned integral type that can hold any GPI
 # endif // !defined __PIN_T_DEFINED ...
 
 static const pin_t InvalidPin = 0;  // Constant indicating an invalid digital GPIO pin number.
+
+# if !(defined __TIME_T_DEFINED || defined __time_t_defined)
+#  if !defined __TIME_T_TYPE
+#   define __TIME_T_TYPE unsigned long
+#  endif
+typedef __TIME_T_TYPE time_t;		// Unsigned integral type that represents a time interval.
+#  define __TIME_T_DEFINED 1
+#  define __time_t_defined 1
+# endif // !defined __PIN_T_DEFINED ...
 
 # if !defined __MSECS_T_DEFINED
 #  if !defined __MSECS_T_TYPE
