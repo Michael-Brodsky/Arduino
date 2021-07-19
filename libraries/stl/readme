@@ -20,7 +20,7 @@ Standard.
 
 Library objects are organized into files having the same name as the 
 corresponding STL file, but with the `.h' extension. The one notable 
-exception is <numeric_limits.h>. The Standard specifies that this file 
+exception is <numeric_limits.h>. The Standard specifies that this header  
 should be called <limits>. However, this would create a conflict with the 
 cstdlib file <limits.h> since the Arduino IDE requires the `.h' extension on 
 all header files. Therefore <numeric_limits.h> was chosen. 
