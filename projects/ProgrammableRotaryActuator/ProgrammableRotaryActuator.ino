@@ -3,8 +3,8 @@
  *
  *	***************************************************************************
  *
- *	File: Sequencer 4.ino
- *	Date: May 31, 2021
+ *	File: ProgrammableRotaryActuator.ino
+ *	Date: July 18, 2021
  *	Version: 0.99
  *	Author: Michael Brodsky
  *	Email: mbrodskiis@gmail.com
@@ -33,10 +33,14 @@
  *	implemented on an Arduino Uno and compatible LCD/Keypad Shield. The device 
  *	controls a servo motor and positions it according to a user-defined, 
  *	chronological sequence. It can be used to automatically control rotary 
- *	valves and other mechanisms in a predefined manner, similarly to the way 
+ *	valves and other mechanisms in a predefined manner, similar to the way 
  *	sprinkler system valves work. The device can be programmed and operated via 
  *	the LCD/Keypad Shield or flash programmed via the on-board serial port. All 
- *	settings are stored in the on-board EEPROM memory.
+ *	settings are stored in the on-board EEPROM memory. Any compatible Pulse 
+ *	Code Modulated servo can be attached to the device. The device must be 
+ *	connected to a suitable DC power supply capable driving the attached servo 
+ *	motor, Arduino and LCD/Keypad Shield. Serial hosts can be attached to the 
+ *	device's USB port. Hardware interfacing is defined in <config.h>. 
  * 
  *	Actuator positions are stored as a sequence of "events". Each event has 
  *	three parameters: a human-readable "name", a "duration", displayed as 
@@ -62,8 +66,8 @@
  *	Modes can be selected from a menu of choices by long-pressing the 
  *	<Select> key in Auto mode, which is the default mode. Scroll the cursor 
  *	with the <Left/Right> keys until the desired mode is highlighted and 
- *  	press and release the <Select> key to select that mode. The device 
- *	returns to "Auto" mode from any other mode using the <Select> key.
+ *  	quickly press and release the <Select> key to select that mode. The 
+ *	device is also returned to "Auto" mode with the <Select> key.
  *
  *	"Auto" mode runs thru the current sequence of events, displaying its name, 
  *	rotation angle and time remaining. The sequence can be started, stopped 
@@ -116,52 +120,60 @@
  *	the current sequence wraps around and repeats continuously or stops after 
  *	the last event. "Y" indicates wrap-around and "N" indicates no wrap-around.
  * 
- * 
  *	"Comm" mode sets the serial port communications protocols. The first 
- *	parameter sets the baud rate and the second sets the number of start/stop 
- *	bits and parity. Keypad navigation/editting is done the same as the "Pgm" 
- *	and "Cfg" modes.
+ *	parameter sets the baud rate and the second sets the protocol (data bits,  
+ *	parity, start/stop bits. Keypad navigation/editting is done the same as the 
+ *	"Pgm" and "Cfg" modes.
  * 
- *	The device can be controlled and programmed remotely via the on-board 
- *	serial port, which is automatically started on power-up. The device 
- *	responds to a set of predefined "Command" strings, some with optional 
- *	parameters. Commands are sent and received as ASCII strings using a 
+ *	********************
+ *  	* Comm:   9600 8N1 *
+ *  	*                  *
+ *	********************
+ *
+ *	The actuator can be programmed and operated remotely via the on-board 
+ *	serial port, which is automatically started on power-up or after a reset and 
+ *	configured with the settings stored in EEPROM (See "Comm" mode, above). Any 
+ *	device capable of asynchronous serial communication can serve as the host. 
+ *	The actuator responds to a set of predefined "Command" strings, some with 
+ *	optional parameters. Commands are sent and received as ASCII strings using a 
  *	specific format that must be followed. Strings have the following general 
- *	format:
+ *	format: 
  * 
- *		key [params] terminator
+ *		key [params;] 
  * 
- *	The "key" is one of the following character strings:
+ *	A space (ASCII code 32 in decimal) is required between the "key" and any 
+ *	parameters. The "key" is one of the following character strings:
  * 
  *		srt - starts the current sequence, 
- *		stp - stops the current sequence, 
- *		res - resumes the current sequence at the current event.
- *		rst - resets the current sequence to the beginning (first event).
- *		lst - lists the current sequence of events from the device.
- *		sto - stores a new sequence of events and reboots the device.
+ *		stp - stops the sequence at the current event, 
+ *		res - resumes the sequence at the current event, 
+ *		rst - resets the sequence to the beginning (first event).
+ *		lst - lists the current sequence of events.
+ *		sto - stores a new sequence of events and reboots the actuator.
  * 
- *	All command strings must end with the "terminator" character, which is a 
- *	newline '\n' (ASCII code 10 in decimal). 
+ *	All command strings are terminated with a newline character '\n' (ASCII 
+ *	code 10 in decimal). 
  * 
- *	The lst and sto commands send/receive event parameters in the following 
- *	format:
+ *	The `srt', `stp', `res' and `rst' commands take no parameters. The `lst' 
+ *	and `sto' commands take/return event parameters in the following format:
  * 
  *		"name",duration,angle;
  * 
  *	The name field is enclosed in double quotes ("), and the duration and angle 
  *	fields are valid numeric values in milliseconds and degrees respectively. 
- *	Events are separated by a record-separator character, which is a semi-
- *	colon ';'. The "lst" command transmits a list of current events back to the 
- *	sender using this format and the "sto" command takes a list of events as 
- *	parameters in the same format. Thus, to send a new sequence of events to the 
- *	device, the sender would transmit:
+ *	Each field is separated by a comma (,) character (ASCII code 44 in decimal). 
+ *	Events are separated by a semi-colon (;) character (ASCII code 59 in  
+ *	decimal). The `lst' command returns a list of current events back to the 
+ *	host using this format and the `sto' command sends a list of event parameters 
+ *	in the same format. Thus, to send a new sequence of events to the actuator, 
+ *	the host would transmit: 
  * 
  *		sto "Closed",10000,0;"Open",2000,90;\n
  * 
- *	This would create a sequence of two events, the first named "Closed" with a 
+ *	This creates a sequence of two events, the first named "Closed" with a 
  *	duration of 10000 ms (10 secs) and a rotation angle of 0 degrees, and the 
  *	second, named "Open" with a duration of 2000 ms and angle of 90 degrees. A 
- *	subsequent "lst" command would return:
+ *	subsequent `lst' command would return:
  * 
  *		"Closed",10000,0;"Open",2000,90;\n
  * 
@@ -264,7 +276,7 @@ const Display::Field menu_fields[] = { auto_field, man_field, pgm_field, cfg_fie
 const Display::Field comm_fields[] = { baud_field, proto_field };
 
 /* Display screen objects, each contains a collection of field objects. 
-   Screens are changed according to the display mode. */
+   Screens are changed according to the operating mode. */
 
 const Display::Screen man_screen(ManLabel, man_fields, EventPrintFmt);
 const Display::Screen pgm_screen(PgmLabel, pgm_fields, EventPrintFmt);
@@ -273,7 +285,7 @@ const Display::Screen menu_screen(MenuLabel, menu_fields, MenuPrintFmt);
 const Display::Screen comm_screen(CommLabel, comm_fields, CommPrintFmt);
 const Display::Screen auto_screen(AutoLabel, nullptr, nullptr, std_begin(EventPrintFmt), std_end(EventPrintFmt));
 
-/* SerialRemote command objects, allow for remote control via serial_remote port. */
+/* SerialRemote command objects, allow for remote control via serial port. */
 
 Command<void, void, CommandTag> start_cmd(&serialCallback, CommandTag::Start);
 Command<void, void, CommandTag> stop_cmd(&serialCallback, CommandTag::Stop);
@@ -339,7 +351,7 @@ sequence_type tmp_events;
  */
 
 Mode mode = Mode::Auto;	// The current operating mode.
-bool keypad_release_enabled = true; // Kills the Select button release event after a long-press.
+bool keypad_release_enabled = true; // Kills the Select button release event after a long-press event.
 EEPROMStream::address_type config_address = 0U, comms_address = 0U; // EEPROM addresses for config and comms storage.
 
 void setup()
@@ -347,7 +359,7 @@ void setup()
 	memoryInitialize();
 #if defined NOEEPROM
 	// Assign two events and store them in the EEPROM 
-	// along with the current config and comms settings.
+	// along with the default config and comms settings.
 	events[0]->name_ = "Closed";
 	events[0]->duration_ = 10000UL;
 	events[1]->name_ = "Open";
@@ -396,7 +408,7 @@ void memoryInitialize()
 	// It's all in my new book: "How Not To Malloc Your Way To Oblivion In MCU Applications", 
 	// now on Amazon, maybe (not).
 
-	for (size_t i = 0; i < size_of(events); ++i) // For some reason, the C++11 range-based for loop no worky-worky here.
+	for (size_t i = 0; i < size_of(events); ++i) // For some reason, the range-based for loop doesn't work here.
 	{
 		_commands[i].object(&actuator);
 		_commands[i].method(&RotaryActuator::position);
