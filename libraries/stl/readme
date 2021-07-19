@@ -7,8 +7,8 @@ To the extent possible, the library objects are implemented and behave according
 to the C++11 ISO Standard (ISO/IEC 14882:2011). Differences are noted as inline 
 comments in the library files. The most obvious difference is in the object 
 identifiers (names). Because later Arduino IDE implementations lack namespace 
-support, all of the library objects reside in the global instead of the `std' 
-namespace. To avoid naming conflicts, the standard identifiers are preceded 
+support, all of the library objects must reside in the global instead of the  
+`std'namespace. To avoid naming conflicts, the standard identifiers are preceded 
 with "std_", for example:
 
   std::find = std_find, 
